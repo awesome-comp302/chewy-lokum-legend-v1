@@ -4,4 +4,4 @@ We need a _real_ readme.
 
 We really do need one.
 
-Hello world!
+We really do need that, obviously.

@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 public class Lokum extends ChewyObject implements Matchable{
 	
+	
 	private static final String[] possibleTypes = {
 		" ", "A", "B", "C"
 	};
@@ -13,6 +14,12 @@ public class Lokum extends ChewyObject implements Matchable{
 		} else {
 			throw new IllegalArgumentException("Type: "+ type + " is unknown.");
 		}
+	}
+	
+	@Override
+	public Lokum clone() {
+		
+		return new Lokum(type);
 	}
 
 	private boolean isValid(String type) {

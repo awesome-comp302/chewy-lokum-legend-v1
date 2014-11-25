@@ -1,16 +1,20 @@
 
-public class Cell {
+public class Cell implements Clonable{
 	
 	private ChewyObject currentObject;
-	private ChewyObject previous;
 	
 	
 	
 	public Cell(ChewyObject chewyObject) {
 		currentObject = chewyObject;
-		previous = null;
 	}
 	
+	@Override
+	 public Cell clone(){
+		// TODO Auto-generated method stub
+		return new Cell(currentObject);
+	}
+
 	public boolean repOk() {
 		// Checks if the cell has a chewy object component.
 		if(!(currentObject == null)) return false;
@@ -32,7 +36,7 @@ public class Cell {
 	 * @return Current object of cell
 	 */
 	public ChewyObject getCurrentObject() {
-		return currentObject;
+		return currentObject.clone();
 	}
 
 	/**
@@ -41,10 +45,7 @@ public class Cell {
 	 * 
 	 * -- This is required for swapping action. --
 	 */
-	public ChewyObject getPrevious() 
-	{
-		return previous;
-	}
+	
 	
 	/**
 	 * @modifies: currentObject and previous
@@ -52,7 +53,6 @@ public class Cell {
 	 */
 	public void setCurrentObject(ChewyObject object) {
 		
-		this.previous = this.currentObject;
 		this.currentObject = object;
 		
 	}

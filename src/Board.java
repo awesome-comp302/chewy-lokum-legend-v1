@@ -18,6 +18,11 @@ public class Board {
 		this.width = width;
 		this.height = height;
 		cells = new Cell[height][width];
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				cells[i][j] = new Cell(new Nothing());
+			}
+		}
 	}
 	
 	public boolean repOk() {
@@ -33,6 +38,12 @@ public class Board {
 	}
 	
 	
+	public boolean inBoard(int x, int y) 
+	{
+		return x>=0 && y>= 0 &&
+				x< width && y < height;
+	}
+	
 	/**
 	
 	 * @param x: x coordinate
@@ -41,10 +52,10 @@ public class Board {
 	 * @postcondition: Wanted cell should be returned
 	 */
 	public Cell cellAt(int x, int y) throws IllegalArgumentException{
-		try {
-			return cells[y][x];
-		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new IllegalArgumentException("Invalid position");
+		if (inBoard(x, y)) {
+			return cells[y][x].clone();
+		} else {
+			throw new IllegalArgumentException("Oha! x:" + x + " y:" + y);
 		}
 	}
 	
@@ -56,13 +67,10 @@ public class Board {
 	 * @postcondition: Wanted cell should be filled with the given object
 	 */
 	public void fillCellAt(int x, int y, ChewyObject co) throws IllegalArgumentException{
-		try {
-			if(cells[y][x] == null ) 
-				cells[y][x] = new Cell(co);
-			else
-				cells[y][x].setCurrentObject(co);
-		} catch (ArrayIndexOutOfBoundsException e) {
-			throw new IllegalArgumentException("Invalid position");
+		if (inBoard(x, y)) {
+			cells[y][x].setCurrentObject(co);
+		} else {
+			throw new IllegalArgumentException("Oha! x:" + x + " y:" + y);
 		}
 	}
 
@@ -73,7 +81,6 @@ public class Board {
 	public int getHeight() {
 		return height;
 	}
-	
 	
 	
 	@Override

@@ -10,6 +10,7 @@ public class Test {
 	private static Level testLevel;
 	private static GamePlay testGame;
 	
+	
 
 	//Class Board, method Board, testing legal constructor values
 	public static void LegalBoardConstructor(){

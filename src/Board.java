@@ -86,10 +86,9 @@ public class Board {
 	@Override
 	public String toString() {
 		String result = "\n";
-		for (int i = 0; i < cells.length; i++) {
-			for (int j = 0; j < cells[0].length; j++) {
-				if(cells[i][j] != null)
-				result += String.format("%-5s",cells[i][j].toString());
+		for (int y = 0; y < getHeight(); y++) {
+			for (int x = 0; x < getWidth(); x++) {
+				result += String.format("%-20s", cellAt(x, y));
 				
 			}
 			result += "\n";

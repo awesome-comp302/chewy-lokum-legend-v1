@@ -16,10 +16,6 @@ public class Obstacke extends ChewyObject{
 		// TODO Auto-generated method stub
 		return Arrays.binarySearch(types, type) >= 0;
 	}
-	@Override
-	public ChewyObject clone() {
-		// TODO Auto-generated method stub
-		return new Obstacke(type);
-	}
+	
 
 }

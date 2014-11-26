@@ -1,4 +1,3 @@
-import java.util.HashMap;
 
 public class GamePlay {
 	private int score;
@@ -36,9 +35,10 @@ public class GamePlay {
 			return false;
 		}
 		
-		if (rules.isSwappable(board, x1, y1, x2, y2)) {
+		if (!rules.isSwappable(board, x1, y1, x2, y2)) {
 			return false;
 		}
+		
 		Cell cell1 = board.cellAt(x1, y1);
 		Cell cell2 = board.cellAt(x2, y2);
 		ChewyObject temp = cell1.getCurrentObject();
@@ -61,22 +61,7 @@ public class GamePlay {
 	 * These code may be refactored to an updater class later
 	 */
 	public void updateBoard() {
-		int eraseCount = -1;
-		while (eraseCount != 0) {
-			eraseCount = 0;
-			for (int i = 0; i < board.getWidth(); i++) {
-				for (int j = 0; j < board.getHeight(); j++) {
-					int checkCode = rules.check(board, i, j, board.cellAt(i, j));
-					if (rules.shouldErased(checkCode)) {
-						erase(checkCode, i, j);
-						eraseCount++;
-						drop(checkCode, i, j);
-					}
-				}
-			}
-		}
-			
-		
+		erase();
 	}
 
 	private void drop(int checkCode, int i, int j) {
@@ -84,22 +69,23 @@ public class GamePlay {
 		//drop the ones above
 	}
 
-	private void erase(int checkCode, int i, int j) {
-
-		switch (checkCode) {
-		case RuleEngine.HORIZONTAL_MATCH:
-			//code here
-			break;
-		case RuleEngine.VERTICAL_MATCH:
-			//code here
-			break;
-		case RuleEngine.VH_MATCH:
-			//code here
-			break;
-
-		default:
-			break;
+	private void erase() {
+		boolean eraseMatrix[][] = new boolean[board.getHeight()][board.getWidth()];
+		
+		for (int r = 0; r < eraseMatrix.length; r++) {
+			for (int c = 0; c < eraseMatrix[r].length; c++) {
+				eraseMatrix[r][c] = rules.check(board, c, r, board.cellAt(c, r)) != RuleEngine.NO_MATCH;
+			}
 		}
+		
+		for (int r = 0; r < eraseMatrix.length; r++) {
+			for (int c = 0; c < eraseMatrix[r].length; c++) {
+				if (eraseMatrix[r][c]) {
+					board.fillCellAt(c, r, new Nothing());
+				}
+			}
+		}
+		
 	}
 
 	public boolean repOk() {

@@ -1,5 +1,5 @@
 
-public abstract class ChewyObject implements Clonable {
+public abstract class ChewyObject {
 	protected String type;
 
 	public String getType()
@@ -7,6 +7,5 @@ public abstract class ChewyObject implements Clonable {
 		return type;
 	}
 	
-	public abstract ChewyObject clone();
 	
 }

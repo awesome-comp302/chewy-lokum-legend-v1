@@ -9,9 +9,7 @@ public class Cell implements Clonable{
 		currentObject = chewyObject;
 	}
 	
-	@Override
-	 public Cell clone(){
-		// TODO Auto-generated method stub
+	public Cell clone() {
 		return new Cell(currentObject);
 	}
 
@@ -36,7 +34,7 @@ public class Cell implements Clonable{
 	 * @return Current object of cell
 	 */
 	public ChewyObject getCurrentObject() {
-		return currentObject.clone();
+		return currentObject;
 	}
 
 	/**
@@ -48,7 +46,7 @@ public class Cell implements Clonable{
 	
 	
 	/**
-	 * @modifies: currentObject and previous
+	 * @modifies: currentObject
 	 * @param Object: object for filling the cell
 	 */
 	public void setCurrentObject(ChewyObject object) {
@@ -63,7 +61,7 @@ public class Cell implements Clonable{
 	}
 	
 	public String status() {
-		return "Cell type: " +currentObject.getType();
+		return currentObject.getType();
 	}
 	
 	

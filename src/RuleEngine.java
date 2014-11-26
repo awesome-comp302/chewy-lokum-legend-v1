@@ -1,6 +1,6 @@
-import java.util.HashMap;
 
 public class RuleEngine {
+	
 	private static RuleEngine instance;
 	public static final int
 			NO_MATCH = 0,
@@ -97,6 +97,8 @@ public class RuleEngine {
 				check(board, x2, y2, board.cellAt(x1, y1)) == NO_MATCH)) {
 			return false;
 		}
+		
+		
 		return true;
 		
 	}
@@ -153,7 +155,7 @@ public class RuleEngine {
 		int sum = 1;
 		
 		int x_count = x1+1;
-		while( x_count < board.getWidth() ) {
+		while( board.inBoard(x_count, y1) ) {
 			ChewyObject current = board.cellAt(x_count, y1).getCurrentObject();
 			if ((current instanceof Matchable) && 
 					(candidate.isMatched((Matchable)current))) {
@@ -164,7 +166,7 @@ public class RuleEngine {
 			}
 		}
 		x_count =x1-1;
-		while( x_count >= 0) {
+		while( board.inBoard(x_count, y1) ) {
 			ChewyObject current = board.cellAt(x_count, y1).getCurrentObject();
 			if ((current instanceof Matchable) && 
 					(candidate.isMatched((Matchable)current))) {
@@ -182,7 +184,7 @@ public class RuleEngine {
 		int sum = 1;
 		
 		int y_count = y1+1;
-		while( y_count < board.getWidth() ) {
+		while( board.inBoard(x1, y_count) ) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
 			if ((current instanceof Matchable) && 
 					(candidate.isMatched((Matchable)current))) {
@@ -193,7 +195,7 @@ public class RuleEngine {
 			}
 		}
 		y_count =y1-1;
-		while( y_count >= 0) {
+		while( board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
 			if ((current instanceof Matchable) && 
 					(candidate.isMatched((Matchable)current))) {
@@ -219,12 +221,13 @@ public class RuleEngine {
 
 	public boolean gameEndedByMovements(int movementsLeft) {
 		// TODO Auto-generated method stub
-		if (movementsLeft <= 0) {
-			return true;
+		if (movementsLeft > 0) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
+	
 	
 	
 }

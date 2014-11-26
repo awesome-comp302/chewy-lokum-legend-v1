@@ -5,9 +5,18 @@ public class Lokum extends ChewyObject implements Matchable{
 	
 	
 	private static final String[] possibleTypes = {
-		" ", "A", "B", "C"
+		"A",
+		"B",
+		"C",
+		"green pistachio",
+		"red rose",
+		"brown hazelnut",
+		"white coconut"
 	};
 	
+	/*
+	 * 
+	 */
 	public Lokum(String type) throws IllegalArgumentException{
 		if(isValid(type)) {
 			this.type = type;
@@ -16,26 +25,20 @@ public class Lokum extends ChewyObject implements Matchable{
 		}
 	}
 	
-	@Override
-	public Lokum clone() {
-		
-		return new Lokum(type);
-	}
+	
 
 	private boolean isValid(String type) {
 		return Arrays.binarySearch(possibleTypes, type) >= 0;
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public boolean isMatched(Matchable l) {
-		// TODO Auto-generated method stub
+		
 		if (l instanceof Lokum) {
-			if (type.equals(((Lokum) l).getType())) {
+			if (type.equalsIgnoreCase(((Lokum) l).getType())) {
 				return true;
 			}
 		} 
 		return false;
 	}
-
 }

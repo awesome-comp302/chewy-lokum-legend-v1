@@ -65,23 +65,56 @@ public class RuleEngine {
 	
 	public int check(Board board, int x1, int y1, Cell cell) {
 		// TODO Auto-generated method stub
+	
 		if (! (cell.isExchangable())) {
 			return NO_MATCH;
 		}
-		boolean vert = countVert(board, x1, y1, (Matchable)cell.getCurrentObject());
-		boolean hor = countHor(board, x1, y1, (Matchable)cell.getCurrentObject());
+		int vert = countVert(board, x1, y1, (Matchable)cell.getCurrentObject());
+		int hor = countHor(board, x1, y1, (Matchable)cell.getCurrentObject());
+		
+		
 		int result = NO_MATCH;
 		
-		if (vert) {
+		if (vert >= MINIMUM_MATCH_REQUIRED) {
 			result = VERTICAL_MATCH;
 		}
 		
-		if (hor) {
+		if (hor >= MINIMUM_MATCH_REQUIRED) {
 			result += HORIZONTAL_MATCH;
 		}
 		
 		return result;
+		
 	}
+	
+	public MatchingScaleInformer getMatchingScaleInformer(Board board, int x1, int y1, ChewyObject object) {
+		MatchingScaleInformer info = new MatchingScaleInformer();
+		if (!(object instanceof Matchable)) {
+			return info;
+		}
+		
+		Matchable m = (Matchable)object;
+		if (countVert(board, x1, y1, m) < MINIMUM_MATCH_REQUIRED) {
+			return info;
+		}
+		if (countHor(board, x1, y1, m) < MINIMUM_MATCH_REQUIRED) {
+			return info;
+		}
+		
+		int up = countTop(board, x1, y1, m);
+		int down = countBottom(board, x1, y1, m);
+		int right = countRigth(board, x1, y1, m);
+		int left = countLeft(board, x1, y1, m);
+		
+		info.setUpScale(up);
+		info.setDownScale(down);
+		info.setRightScale(right);
+		info.setLeftScale(left);
+
+		return info;
+	}
+	
+	
 	
 	public boolean isSwappable(Board board, int x1, int y1,int x2, int y2) {
 		
@@ -150,9 +183,13 @@ public class RuleEngine {
 		return sum >= MINIMUM_MATCH_REQUIRED;
 	}*/
 
-	private boolean countHor(Board board, int x1, int y1, Matchable candidate) {
+	private int countHor(Board board, int x1, int y1, Matchable candidate) {
 		// TODO Auto-generated method stub
-		int sum = 1;
+		return 1 + countRigth(board, x1, y1, candidate) + countLeft(board, x1, y1, candidate);
+	}
+	
+	private int countRigth(Board board, int x1, int y1, Matchable candidate) {
+		int sum = 0;
 		
 		int x_count = x1+1;
 		while( board.inBoard(x_count, y1) ) {
@@ -165,7 +202,14 @@ public class RuleEngine {
 				break;
 			}
 		}
-		x_count =x1-1;
+		
+		return sum;
+	}
+	
+	
+	private int countLeft(Board board, int x1, int y1, Matchable candidate) {
+		int sum = 0;
+		int x_count =x1-1;
 		while( board.inBoard(x_count, y1) ) {
 			ChewyObject current = board.cellAt(x_count, y1).getCurrentObject();
 			if ((current instanceof Matchable) && 
@@ -176,12 +220,16 @@ public class RuleEngine {
 				break;
 			}
 		}
-		//System.err.println("xsum:" + sum);
-		return sum >= MINIMUM_MATCH_REQUIRED;
+		return sum;
 	}
-
-	private boolean countVert(Board board, int x1, int y1,Matchable candidate) {
-		int sum = 1;
+	
+	
+	private int countVert(Board board, int x1, int y1,Matchable candidate) {
+		return 1 + countTop(board, x1, y1, candidate) + countBottom(board, x1, y1, candidate);	
+	}
+	
+	private int countTop(Board board, int x1, int y1,Matchable candidate) {
+		int sum = 0;
 		
 		int y_count = y1+1;
 		while( board.inBoard(x1, y_count) ) {
@@ -194,7 +242,13 @@ public class RuleEngine {
 				break;
 			}
 		}
-		y_count =y1-1;
+		return sum;
+		
+	}
+	
+	private int countBottom(Board board, int x1, int y1,Matchable candidate) {
+		int sum = 0;
+		int y_count =y1-1;
 		while( board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
 			if ((current instanceof Matchable) && 
@@ -205,10 +259,7 @@ public class RuleEngine {
 				break;
 			}
 		}
-		//System.err.println("ysum:" + sum);
-		
-		return sum >= MINIMUM_MATCH_REQUIRED;
-		
+		return sum;
 	}
 
 	public boolean shouldErased(int checkCode) {

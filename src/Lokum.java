@@ -8,9 +8,9 @@ public class Lokum extends ChewyObject implements Matchable{
 		"A",
 		"B",
 		"C",
-		"green pistachio",
-		"red rose",
 		"brown hazelnut",
+		"green pistachio",
+		"red rose",		
 		"white coconut"
 	};
 	

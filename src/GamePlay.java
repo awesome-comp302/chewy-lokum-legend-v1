@@ -1,4 +1,4 @@
-
+//başarılı
 public class GamePlay {
 	private int score;
 	private Board board;

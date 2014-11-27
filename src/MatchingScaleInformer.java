@@ -91,7 +91,7 @@ public class MatchingScaleInformer {
 			default:
 				break;
 			}
-			result += matchingScaleMap.get(key) + "\n";
+			result += matchingScaleMap.get(key) + " ";
 		}
 		return result;
 	}

@@ -66,11 +66,13 @@ public class GamePlay {
 
 	
 	private void erase() {
+		MatchingScaleInformer[][] scalingMatrix = new MatchingScaleInformer[board.getHeight()][board.getWidth()];
+		
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				MatchingScaleInformer info = rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
+				scalingMatrix[j][i]= rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
 				System.err.println("x:" + i + " y:" + j + " lokum: " + board.cellAt(i, j));
-				System.err.println(info);
+				/*System.err.println(info);
 				if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED 
 						|| info.verticalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED) {
 					board.fillCellAt(i, j, new Nothing());
@@ -94,12 +96,17 @@ public class GamePlay {
 				//down
 				for (int k = 1; k <= info.getDownScale(); k++) {
 					board.fillCellAt(i, j+k, new Nothing());
-				}
-				
-				
+				}*/
 				
 			}
 		}
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				System.out.print(scalingMatrix[j][i] + "   ");
+			}
+			System.out.println();
+		}
+		
 	}
 
 	private void drop(int checkCode, int i, int j) {

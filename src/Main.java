@@ -12,6 +12,8 @@ public class Main {
 		b.fillCellAt(0, 1, new Lokum("red rose"));
 		b.fillCellAt(0, 2, new Lokum("green pistachio"));
 		b.fillCellAt(1, 1, new Lokum("green pistachio"));
+		b.fillCellAt(1, 2, new Lokum("green pistachio"));
+		b.fillCellAt(2, 2, new Lokum("green pistachio"));
 		Level level = new Level(20, 10, b, 1);
 		GamePlay gp = new GamePlay(level);
 		/*System.out.println(RuleEngine.getInstance().gameEndedByMovements(1));

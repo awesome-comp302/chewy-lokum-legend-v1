@@ -64,6 +64,7 @@ public class GamePlay {
 		erase();
 	}
 
+	
 	private void erase() {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {

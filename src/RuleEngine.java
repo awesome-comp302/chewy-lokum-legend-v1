@@ -88,23 +88,23 @@ public class RuleEngine {
 	}
 	
 	public MatchingScaleInformer getMatchingScaleInformer(Board board, int x1, int y1, ChewyObject object) {
+		
 		MatchingScaleInformer info = new MatchingScaleInformer();
 		if (!(object instanceof Matchable)) {
 			return info;
 		}
 		
 		Matchable m = (Matchable)object;
-		if (countVert(board, x1, y1, m) < MINIMUM_MATCH_REQUIRED) {
+		
+		if (countVert(board, x1, y1, m) < MINIMUM_MATCH_REQUIRED &&
+				countHor(board, x1, y1, m) < MINIMUM_MATCH_REQUIRED)
 			return info;
-		}
-		if (countHor(board, x1, y1, m) < MINIMUM_MATCH_REQUIRED) {
-			return info;
-		}
 		
 		int up = countTop(board, x1, y1, m);
 		int down = countBottom(board, x1, y1, m);
 		int right = countRigth(board, x1, y1, m);
 		int left = countLeft(board, x1, y1, m);
+		System.err.println("up is" + up);
 		
 		info.setUpScale(up);
 		info.setDownScale(down);
@@ -228,7 +228,7 @@ public class RuleEngine {
 		return 1 + countTop(board, x1, y1, candidate) + countBottom(board, x1, y1, candidate);	
 	}
 	
-	private int countTop(Board board, int x1, int y1,Matchable candidate) {
+	private int countBottom(Board board, int x1, int y1,Matchable candidate) {
 		int sum = 0;
 		
 		int y_count = y1+1;
@@ -246,7 +246,7 @@ public class RuleEngine {
 		
 	}
 	
-	private int countBottom(Board board, int x1, int y1,Matchable candidate) {
+	private int countTop(Board board, int x1, int y1,Matchable candidate) {
 		int sum = 0;
 		int y_count =y1-1;
 		while( board.inBoard(x1, y_count)) {

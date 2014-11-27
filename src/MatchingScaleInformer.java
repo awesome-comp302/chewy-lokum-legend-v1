@@ -25,12 +25,12 @@ public class MatchingScaleInformer {
 	
 	public int horizontalMatchTotalScale()
 	{
-		return matchingScaleMap.get(RIGHT_SCALE_KEY) + matchingScaleMap.get(LEFT_SCALE_KEY);
+		return matchingScaleMap.get(RIGHT_SCALE_KEY) + matchingScaleMap.get(LEFT_SCALE_KEY) + 1;
 	}
 	
 	public int verticalMatchTotalScale()
 	{
-		return matchingScaleMap.get(DOWN_SCALE_KEY) + matchingScaleMap.get(UP_SCALE_KEY);
+		return matchingScaleMap.get(DOWN_SCALE_KEY) + matchingScaleMap.get(UP_SCALE_KEY) + 1;
 	}
 
 

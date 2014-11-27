@@ -100,9 +100,9 @@ public class GamePlay {
 				
 			}
 		}
-		for (int i = 0; i < board.getWidth(); i++) {
-			for (int j = 0; j < board.getHeight(); j++) {
-				System.out.print(scalingMatrix[j][i] + "   ");
+		for (int i = 0; i < board.getHeight(); i++) {
+			for (int j = 0; j < board.getWidth(); j++) {
+				System.out.print(scalingMatrix[i][j] + "   ");
 			}
 			System.out.println();
 		}

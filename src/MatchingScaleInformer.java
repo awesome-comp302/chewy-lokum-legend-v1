@@ -63,7 +63,7 @@ public class MatchingScaleInformer {
 	
 	public void setLeftScale(int left) {
 
-		matchingScaleMap.put(UP_SCALE_KEY, left);
+		matchingScaleMap.put(LEFT_SCALE_KEY, left);
 	}
 	
 	public int getLeftScale() {

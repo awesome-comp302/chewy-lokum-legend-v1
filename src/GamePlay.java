@@ -1,11 +1,30 @@
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GamePlay.
+ */
 public class GamePlay {
+	
+	/** The score. */
 	private int score;
+	
+	/** The board. */
 	private Board board;
+	
+	/** The level. */
 	private Level level;
+	
+	/** The movements left. */
 	private int movementsLeft;
+	
+	/** The rules. */
 	private RuleEngine rules;
 	
+	/**
+	 * Instantiates a new game play.
+	 *
+	 * @param level the level
+	 */
 	public GamePlay(Level level) {
 		rules = RuleEngine.getInstance();
 		this.level = level;
@@ -15,14 +34,29 @@ public class GamePlay {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Gets the score.
+	 *
+	 * @return the score
+	 */
 	public int getScore() {
 		return score;
 	}
 	
+	/**
+	 * Gets the level id.
+	 *
+	 * @return the level id
+	 */
 	public int getLevelId() {
 		return level.getLevelId();
 	}
 	
+	/**
+	 * Gets the movements left.
+	 *
+	 * @return the movements left
+	 */
 	public int getMovementsLeft() {
 		return movementsLeft;
 	}
@@ -42,15 +76,19 @@ public class GamePlay {
 	 * @return
 	 */
 /**
- * Tries to swap the objects in two cells specified by their coordinates.
- * If swap becomes successful, returns true. Otherwise, returns false
- * @author cgumeli
- * @requires board field is non-null,rules field is nonnull, RuleEngine responds correctly.
- * @ensures if swap is verified, then cells in the board object is updated
- * returned true if swap is successful, false otherwise.
- * 
- * 
- */
+	 * Tries to swap the objects in two cells specified by their coordinates.
+	 * If swap becomes successful, returns true. Otherwise, returns false
+	 *
+	 * @author cgumeli
+	 * @param x1 the x1
+	 * @param y1 the y1
+	 * @param x2 the x2
+	 * @param y2 the y2
+	 * @return true, if successful
+	 * @custom.requires board field is non-null,rules field is nonnull, RuleEngine responds correctly.
+	 * @ensures if swap is verified, then cells in the board object is updated
+	 * returned true if swap is successful, false otherwise.
+	 */
 	
 	public boolean swap(int x1, int y1, int x2, int y2) {
 		if (rules.gameEndedByMovements(movementsLeft)) {
@@ -70,10 +108,20 @@ public class GamePlay {
 		return true;
 	}
 
+	/**
+	 * Gets the level.
+	 *
+	 * @return the level
+	 */
 	public Level getLevel() {
 		return level;
 	}
 
+	/**
+	 * Sets the level.
+	 *
+	 * @param level the new level
+	 */
 	public void setLevel(Level level) {
 		this.level = level;
 	}
@@ -81,6 +129,9 @@ public class GamePlay {
 	/*
 	 * Can:
 	 * These code may be refactored to an updater class later
+	 */
+	/**
+	 * Update board.
 	 */
 	public void updateBoard() {
 		//generate scaling matrix
@@ -94,6 +145,11 @@ public class GamePlay {
 		
 	}
 
+	/**
+	 * Generate scale matrix.
+	 *
+	 * @return the matching scale informer[][]
+	 */
 	private MatchingScaleInformer[][] generateScaleMatrix() {
 		
 		MatchingScaleInformer[][] scaleMatrix = new MatchingScaleInformer[board.getHeight()][board.getWidth()];
@@ -105,6 +161,11 @@ public class GamePlay {
 		return scaleMatrix;
 	}
 	
+	/**
+	 * Erase all matches.
+	 *
+	 * @param scaleMatrix the scale matrix
+	 */
 	private void eraseAllMatches(MatchingScaleInformer[][] scaleMatrix) {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
@@ -115,6 +176,12 @@ public class GamePlay {
 		}
 	}
 	
+	/**
+	 * Calculate score.
+	 *
+	 * @param msi the msi
+	 * @return the int
+	 */
 	private int calculateScore(MatchingScaleInformer[][] msi)
 	{
 		int score = 0;
@@ -126,6 +193,13 @@ public class GamePlay {
 		return score;
 	}
 
+	/**
+	 * Drop.
+	 *
+	 * @param checkCode the check code
+	 * @param i the i
+	 * @param j the j
+	 */
 	private void drop(int checkCode, int i, int j) {
 		
 	}
@@ -151,6 +225,11 @@ public class GamePlay {
 		
 	}*/
 
+	/**
+	 * Rep ok.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean repOk() {
 		// inspects whether the constructor did its job
 		if (movementsLeft < 0)
@@ -165,10 +244,18 @@ public class GamePlay {
 		return true;
 	}
 
+	/**
+	 * Movements left.
+	 *
+	 * @return the string
+	 */
 	public String movementsLeft() {
 		return "Movements Left: " + movementsLeft;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 

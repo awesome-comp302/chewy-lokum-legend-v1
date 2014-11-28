@@ -4,10 +4,8 @@ import java.util.Arrays;
 public class Lokum extends ChewyObject implements Matchable{
 	
 	
-	private static final String[] possibleTypes = {
-		"A",
-		"B",
-		"C",
+	public static final String[] possibleTypes = {
+		
 		"brown hazelnut",
 		"green pistachio",
 		"red rose",		

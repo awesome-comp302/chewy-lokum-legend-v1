@@ -1,3 +1,5 @@
+import java.util.Random;
+
 
 public class Main {
 
@@ -6,6 +8,47 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+		Board b = new Board(50, 50);
+		Level l = new Level(10, 10, b, 2);
+		GamePlay gp = new GamePlay(l);
+		while (isThereNothing(b)) {
+			fillAllNothingsRandomly(b);
+			gp.updateBoard();
+		}
+		System.out.println(b);
+	}
+	
+	
+	
+	private static boolean isThereNothing(Board b) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < b.getWidth(); i++) {
+			for (int j = 0; j < b.getHeight(); j++) {
+				if (b.cellAt(i, j).getCurrentObject().getType().equalsIgnoreCase("empty")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private static void fillAllNothingsRandomly(Board b) {
+		String str[] = Lokum.possibleTypes;
+		for (int i = 0; i < b.getWidth(); i++) {
+			for (int j = 0; j < b.getHeight(); j++) {
+				if (b.cellAt(i, j).getCurrentObject().getType().equalsIgnoreCase("empty")) {
+					Lokum currentLokum = new Lokum(str[new Random().nextInt(str.length)]);
+					b.fillCellAt(i, j, currentLokum);
+				}
+				
+			}
+		}
+		
+		
+		
+	}
+
+	public static void main2(String[] args) {
 		// TODO Auto-generated method stub
 		Board b = new Board(4, 3);
 		b.fillCellAt(0, 0, new Lokum("green pistachio"));

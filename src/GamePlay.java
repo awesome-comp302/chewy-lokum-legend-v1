@@ -14,7 +14,18 @@ public class GamePlay {
 		board = level.getBoard();
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public int getLevelId() {
+		return level.getLevelId();
+	}
+	
+	public int getMovementsLeft() {
+		return movementsLeft;
+	}
 	/*
 	 * @requires repOk, 
 	 * 			RuleEngine have predicates gameEndedByMovements(int) and
@@ -79,45 +90,23 @@ public class GamePlay {
 	
 	private void erase() {
 		MatchingScaleInformer[][] scaleMatrix = new MatchingScaleInformer[board.getHeight()][board.getWidth()];
-		
+		//fill matching scale informer matrix
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				scaleMatrix[j][i]= rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
-				
-				/*System.err.println(info);
-				if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED 
-						|| info.verticalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED) {
-					board.fillCellAt(i, j, new Nothing());
-				}
-				
-				//left
-				for (int k = 1; k <= info.getLeftScale(); k++) {
-					board.fillCellAt(i-k, j, new Nothing());
-				}
-				
-				//right
-				for (int k = 1; k <= info.getRightScale(); k++) {
-					board.fillCellAt(i+k, j, new Nothing());
-				}
-				
-				//up
-				for (int k = 1; k <= info.getUpScale(); k++) {
-					board.fillCellAt(i, j-k, new Nothing());
-				}
-				
-				//down
-				for (int k = 1; k <= info.getDownScale(); k++) {
-					board.fillCellAt(i, j+k, new Nothing());
-				}*/
-				
+				scaleMatrix[j][i]= rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());	
 			}
 		}
-		for (int i = 0; i < board.getHeight(); i++) {
-			for (int j = 0; j < board.getWidth(); j++) {
-				System.out.print(scaleMatrix[i][j] + "   ");
-				
+		
+		//update the score
+		score = calculateScore(scaleMatrix);
+		
+		//start erasing
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				if (rules.shouldErased(scaleMatrix[j][i])) {
+					board.fillCellAt(i, j, new Nothing());
+				}
 			}
-			System.out.println();
 		}
 		
 	}
@@ -129,20 +118,15 @@ public class GamePlay {
 	 * If not, take into account all scales
 	 * otherwise, don't count backward matches
 	 */
-	private int calculateScore(Board b, int x, int y, MatchingScaleInformer msi)
+	private int calculateScore(MatchingScaleInformer[][] msi)
 	{
 		int score = 0;
-		
-		int upy = y-1;
-		int leftx = x + 1;
-		if (b.inBoard(x, upy)) {
-			if (b.cellAt(x, upy).isExchangable()) {
-				Matchable m = (Matchable)b.cellAt(x, upy).getCurrentObject();
-				//add the vertical score if there is no matching
-				//don't care otherwise
+		for (int i = 0; i < msi.length; i++) {
+			for (int j = 0; j < msi[0].length; j++) {
+				
+				score += rules.score(msi[i][j]);
 			}
 		}
-		
 		return score;
 	}
 

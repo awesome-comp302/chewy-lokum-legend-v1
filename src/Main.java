@@ -37,10 +37,12 @@ public class Main {
 		System.out.println(c);
 		c.setCurrentObject(new Lokum("white coconut"));*/
 		System.out.println(gp.swap(0, 1, 1, 1));
+		b.fillCellAt(2, 1, new Lokum("red rose"));
+		b.fillCellAt(3, 1, new Lokum("red rose"));
 		System.out.println(b);
+		System.out.println("Score: " + gp.getScore());
 		gp.updateBoard();
-		
-		
+		System.out.println("Score: " + gp.getScore());
 		System.out.println(b);
 		
 	}

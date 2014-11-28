@@ -262,12 +262,12 @@ public class RuleEngine {
 		return sum;
 	}
 
-	public boolean shouldErased(int checkCode) {
-		// TODO Auto-generated method stub
-		if (checkCode == NO_MATCH) {
-			return false;
-		}
-		return true;
+	public boolean shouldErased(MatchingScaleInformer msi) {
+		if (msi.horizontalMatchTotalScale() >= MINIMUM_MATCH_REQUIRED
+				||
+				msi.verticalMatchTotalScale() >= MINIMUM_MATCH_REQUIRED)
+			return true;
+		return false;
 	}
 
 	public boolean gameEndedByMovements(int movementsLeft) {
@@ -278,9 +278,28 @@ public class RuleEngine {
 		return true;
 	}
 
+	/*
+	 * Right and up scale should only stand for checking was is matched previously
+	 * check always occurs from right to left and up to down
+	 */
 	public int score(MatchingScaleInformer msi)
 	{
+		int score = 0;
+		if (msi.getLeftScale() == 0) {
+			
+			int rightScale = msi.getRightScale();
+			if (rightScale >= MINIMUM_MATCH_REQUIRED-1) {
+				score += rightScale * 20;
+			}
+		}
+		if (msi.getUpScale() == 0) {
+			int downScale = msi.getDownScale();
+			if (downScale>= MINIMUM_MATCH_REQUIRED-1) {
+				score += downScale * 20;
+			}
+		}
 		
+		return score;
 	}
 	
 	

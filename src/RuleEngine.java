@@ -279,8 +279,8 @@ public class RuleEngine {
 	}
 
 	/*
-	 * Right and up scale should only stand for checking was is matched previously
-	 * check always occurs from right to left and up to down
+	 * Left and up scale should only stand for checking whether the cell was matched previously
+	 * check always occurs from left to right and up to down
 	 */
 	public int score(MatchingScaleInformer msi)
 	{

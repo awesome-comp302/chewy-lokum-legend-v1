@@ -83,24 +83,29 @@ public class GamePlay {
 	 * These code may be refactored to an updater class later
 	 */
 	public void updateBoard() {
-		erase();
+		//generate scaling matrix
+		MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
+		
+		//erase all matched cells
+		eraseAllMatches(scaleMatrix);
+		
+		//update the score;
+		score = calculateScore(scaleMatrix);
+		
 	}
 
-	
-	
-	private void erase() {
+	private MatchingScaleInformer[][] generateScaleMatrix() {
+		
 		MatchingScaleInformer[][] scaleMatrix = new MatchingScaleInformer[board.getHeight()][board.getWidth()];
-		//fill matching scale informer matrix
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				scaleMatrix[j][i]= rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());	
 			}
 		}
-		
-		//update the score
-		score = calculateScore(scaleMatrix);
-		
-		//start erasing
+		return scaleMatrix;
+	}
+	
+	private void eraseAllMatches(MatchingScaleInformer[][] scaleMatrix) {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				if (rules.shouldErased(scaleMatrix[j][i])) {
@@ -108,22 +113,13 @@ public class GamePlay {
 				}
 			}
 		}
-		
 	}
 	
-	
-	
-	/*
-	 * Check for backward matches (from up or left)
-	 * If not, take into account all scales
-	 * otherwise, don't count backward matches
-	 */
 	private int calculateScore(MatchingScaleInformer[][] msi)
 	{
 		int score = 0;
 		for (int i = 0; i < msi.length; i++) {
 			for (int j = 0; j < msi[0].length; j++) {
-				
 				score += rules.score(msi[i][j]);
 			}
 		}
@@ -131,8 +127,7 @@ public class GamePlay {
 	}
 
 	private void drop(int checkCode, int i, int j) {
-		//find emptied place
-		//drop the ones above
+		
 	}
 	
 	

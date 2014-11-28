@@ -278,7 +278,10 @@ public class RuleEngine {
 		return true;
 	}
 
-	
+	public int score(MatchingScaleInformer msi)
+	{
+		
+	}
 	
 	
 }

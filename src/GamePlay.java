@@ -15,7 +15,7 @@ public class GamePlay {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
+	/*
 	 * @requires repOk, 
 	 * 			RuleEngine have predicates gameEndedByMovements(int) and
 	 * 			isSwappable(Board b, int x1, int y1, int x2, int y2)
@@ -30,6 +30,17 @@ public class GamePlay {
 	 * @postconditions: swap operations should have done if returned true
 	 * @return
 	 */
+/**
+ * Tries to swap the objects in two cells specified by their coordinates.
+ * If swap becomes successful, returns true. Otherwise, returns false
+ * @author cgumeli
+ * @requires board field is non-null,rules field is nonnull, RuleEngine responds correctly.
+ * @ensures if swap is verified, then cells in the board object is updated
+ * returned true if swap is successful, false otherwise.
+ * 
+ * 
+ */
+	
 	public boolean swap(int x1, int y1, int x2, int y2) {
 		if (rules.gameEndedByMovements(movementsLeft)) {
 			return false;
@@ -65,12 +76,13 @@ public class GamePlay {
 	}
 
 	
+	
 	private void erase() {
-		MatchingScaleInformer[][] scalingMatrix = new MatchingScaleInformer[board.getHeight()][board.getWidth()];
+		MatchingScaleInformer[][] scaleMatrix = new MatchingScaleInformer[board.getHeight()][board.getWidth()];
 		
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				scalingMatrix[j][i]= rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
+				scaleMatrix[j][i]= rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
 				
 				/*System.err.println(info);
 				if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED 
@@ -102,38 +114,14 @@ public class GamePlay {
 		}
 		for (int i = 0; i < board.getHeight(); i++) {
 			for (int j = 0; j < board.getWidth(); j++) {
-				System.out.print(scalingMatrix[i][j] + "   ");
-				/*MatchingScaleInformer info = scalingMatrix[i][j];
+				System.out.print(scaleMatrix[i][j] + "   ");
 				
-				if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED 
-						|| info.verticalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED) {
-					board.fillCellAt(i, j, new Nothing());
-				}
-				
-				//left
-				for (int k = 1; k <= info.getLeftScale(); k++) {
-					board.fillCellAt(i-k, j, new Nothing());
-				}
-				
-				//right
-				for (int k = 1; k <= info.getRightScale(); k++) {
-					board.fillCellAt(i+k, j, new Nothing());
-				}
-				
-				//up
-				for (int k = 1; k <= info.getUpScale(); k++) {
-					board.fillCellAt(i, j-k, new Nothing());
-				}
-				
-				//down
-				for (int k = 1; k <= info.getDownScale(); k++) {
-					board.fillCellAt(i, j+k, new Nothing());
-				}*/
 			}
 			System.out.println();
 		}
 		
 	}
+	
 	
 	
 	/*
@@ -209,5 +197,32 @@ public class GamePlay {
 				+ level.getLevelId() + "\n" + "Movements Left: "
 				+ movementsLeft + "\n" + "is board ok? " + board.repOk();
 	}
-
+	
+	/*Old matching code
+	 * MatchingScaleInformer info = scalingMatrix[i][j];
+	
+	if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED 
+			|| info.verticalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED) {
+		board.fillCellAt(i, j, new Nothing());
+	}
+	
+	//left
+	for (int k = 1; k <= info.getLeftScale(); k++) {
+		board.fillCellAt(i-k, j, new Nothing());
+	}
+	
+	//right
+	for (int k = 1; k <= info.getRightScale(); k++) {
+		board.fillCellAt(i+k, j, new Nothing());
+	}
+	
+	//up
+	for (int k = 1; k <= info.getUpScale(); k++) {
+		board.fillCellAt(i, j-k, new Nothing());
+	}
+	
+	//down
+	for (int k = 1; k <= info.getDownScale(); k++) {
+		board.fillCellAt(i, j+k, new Nothing());
+	}*/
 }

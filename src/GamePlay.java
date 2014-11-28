@@ -71,7 +71,6 @@ public class GamePlay {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				scalingMatrix[j][i]= rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
-				System.err.println("x:" + i + " y:" + j + " lokum: " + board.cellAt(i, j));
 				
 				/*System.err.println(info);
 				if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED 
@@ -134,6 +133,29 @@ public class GamePlay {
 			System.out.println();
 		}
 		
+	}
+	
+	
+	/*
+	 * Check for backward matches (from up or left)
+	 * If not, take into account all scales
+	 * otherwise, don't count backward matches
+	 */
+	private int calculateScore(Board b, int x, int y, MatchingScaleInformer msi)
+	{
+		int score = 0;
+		
+		int upy = y-1;
+		int leftx = x + 1;
+		if (b.inBoard(x, upy)) {
+			if (b.cellAt(x, upy).isExchangable()) {
+				Matchable m = (Matchable)b.cellAt(x, upy).getCurrentObject();
+				//add the vertical score if there is no matching
+				//don't care otherwise
+			}
+		}
+		
+		return score;
 	}
 
 	private void drop(int checkCode, int i, int j) {

@@ -93,6 +93,8 @@ public class MatchingScaleInformer {
 			}
 			result += matchingScaleMap.get(key) + " ";
 		}
+		result += "hr sum: " + horizontalMatchTotalScale();
+		result += " vr sum: " + verticalMatchTotalScale();
 		return result;
 	}
 	

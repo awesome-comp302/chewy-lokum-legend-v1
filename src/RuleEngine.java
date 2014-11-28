@@ -104,7 +104,7 @@ public class RuleEngine {
 		int down = countBottom(board, x1, y1, m);
 		int right = countRigth(board, x1, y1, m);
 		int left = countLeft(board, x1, y1, m);
-		System.err.println("up is" + up);
+		//System.err.println("up is" + up);
 		
 		info.setUpScale(up);
 		info.setDownScale(down);

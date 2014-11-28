@@ -72,6 +72,7 @@ public class GamePlay {
 			for (int j = 0; j < board.getHeight(); j++) {
 				scalingMatrix[j][i]= rules.getMatchingScaleInformer(board, i, j, board.cellAt(i, j).getCurrentObject());
 				System.err.println("x:" + i + " y:" + j + " lokum: " + board.cellAt(i, j));
+				
 				/*System.err.println(info);
 				if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED 
 						|| info.verticalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED) {
@@ -103,6 +104,32 @@ public class GamePlay {
 		for (int i = 0; i < board.getHeight(); i++) {
 			for (int j = 0; j < board.getWidth(); j++) {
 				System.out.print(scalingMatrix[i][j] + "   ");
+				/*MatchingScaleInformer info = scalingMatrix[i][j];
+				
+				if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED 
+						|| info.verticalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED) {
+					board.fillCellAt(i, j, new Nothing());
+				}
+				
+				//left
+				for (int k = 1; k <= info.getLeftScale(); k++) {
+					board.fillCellAt(i-k, j, new Nothing());
+				}
+				
+				//right
+				for (int k = 1; k <= info.getRightScale(); k++) {
+					board.fillCellAt(i+k, j, new Nothing());
+				}
+				
+				//up
+				for (int k = 1; k <= info.getUpScale(); k++) {
+					board.fillCellAt(i, j-k, new Nothing());
+				}
+				
+				//down
+				for (int k = 1; k <= info.getDownScale(); k++) {
+					board.fillCellAt(i, j+k, new Nothing());
+				}*/
 			}
 			System.out.println();
 		}

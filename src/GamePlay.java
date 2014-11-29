@@ -63,7 +63,9 @@ public class GamePlay {
 	/*
 	 * @requires repOk, 
 	 * 			RuleEngine have predicates gameEndedByMovements(int) and
-	 * 			isSwappable(Board b, int x1, int y1, int x2, int y2)
+	 * 			isSwappable(Board b, int x1, int y1, int x2, int y2) are defined
+	 * 			and work correctly
+	 * 
 	 * @param x1
 	 *            : x of the first cell (0...width-1)
 	 * @param y1

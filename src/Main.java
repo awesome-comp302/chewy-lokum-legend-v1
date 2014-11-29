@@ -9,8 +9,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		dropTest();
-		
+		bug();
 	}
 	
 	private static void bug(){
@@ -41,6 +40,7 @@ public class Main {
 					System.out.println(i+" "+j+"Swap is Failed!");
 				System.out.println(b2);
 				if(gp2.swap(i, j, i+1, j+1)){
+					//bu mu?
 					System.out.println(i+" "+j+"Swap is Successfull cross!\n");
 					gp2.swap(i, j, i+1, j+1);}
 				else

@@ -52,7 +52,9 @@ public class Main {
 				else
 					System.out.println(i+" "+j+"Swap is Failed!");
 				System.out.println(b2);
+				System.out.println("\n\n\n\n");
 			}
+			
 		}
 		
 	}

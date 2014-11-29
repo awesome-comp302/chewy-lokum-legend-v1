@@ -130,11 +130,15 @@ public class RuleEngine {
 			return false;
 		}
 		
-		if ((check(board, x1, y1, board.cellAt(x2, y2)) == NO_MATCH &&
-				check(board, x2, y2, board.cellAt(x1, y1)) == NO_MATCH)) {
-			return false;
-		}
 		
+		MatchingScaleInformer msi1 = getMatchingScaleInformer(board, x1, y1, board.cellAt(x2, y2).getCurrentObject());
+		MatchingScaleInformer msi2 = getMatchingScaleInformer(board, x2, y2, board.cellAt(x1, y1).getCurrentObject());
+		if (msi1.horizontalMatchTotalScale() < MINIMUM_MATCH_REQUIRED
+				||
+				msi2.verticalMatchTotalScale() < MINIMUM_MATCH_REQUIRED) {
+			return false;
+			
+		}
 		
 		return true;
 		

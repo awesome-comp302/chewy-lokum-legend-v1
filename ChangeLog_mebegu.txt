@@ -1,0 +1,41 @@
+
+@author: mebegu
+
+		*29 November 2014   18:10*
+_________________________________________________________
+
+1. New features:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+a. dropAll() function added to GamePlay class.
+
+	- The function makes all gameobjects
+	 to drop, the old places of dropping
+	 objects are filled with nothing object
+	- You can check it at main.java. There is a
+	 dropTest() method.
+
+###########
+
+b. isThereAvailableMove() function added to GamePlay class.
+
+	- The function returns true if there is
+	 a swapable cell. Otherwise it returns false.
+	- I tried to test it, it failed by another reason
+	 (See also: 1.a. )
+
+
+_________________________________________________________
+
+1. Discovered Issues & Bugs:
+---------------------------------------------------------
+
+a.  Check method is working wrong sometimes. I couldn't 
+manage to fix it. Because of that isThereAvailableMove() 
+method is not working properly.
+
+
+
+
+			<End>
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||

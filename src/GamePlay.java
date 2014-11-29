@@ -143,6 +143,9 @@ public class GamePlay {
 		//update the score;
 		score = calculateScore(scaleMatrix);
 		
+		//Checking if the board is playable
+		if(isThereAvailableMove()) System.out.println("\nBoard is playable"); else System.out.println("\nBoard is NOT playable");
+		
 	}
 
 	/**
@@ -200,8 +203,36 @@ public class GamePlay {
 	 * @param i the i
 	 * @param j the j
 	 */
-	private void drop(int checkCode, int i, int j) {
+	public void dropAll() {
+		for (int i = board.getWidth()-1; i > -1; i--) {
+			for (int j = board.getHeight()-1; j > -1; j--) {
+				if(board.cellAt(i, j).getCurrentObject().getType().equals("Empty")){
+					int temp = j;
+					while(board.cellAt(i, temp).getCurrentObject().getType().equals("Empty") && temp > 0){
+						temp--;	
+					}
+					if(!board.cellAt(i, temp).getCurrentObject().getType().equals("Empty")){
+						String type = board.cellAt(i, temp).getCurrentObject().getType();
+						board.fillCellAt(i, temp, new Nothing());
+						board.fillCellAt(i, j, new Lokum(type));
+						temp =j;
+					}
+				}
+			}
+		}
+
+	}
+
+	private boolean isThereAvailableMove() {
+		for (int i = 0; i < board.getWidth()-1; i++) {
+			for (int j = 0; j < board.getHeight()-1; j++) {
+				if(rules.isSwappable(board, i, j,i+1, j)) return true;
+				if(rules.isSwappable(board, i, j,i+1, j+1)) return true;
+				if(rules.isSwappable(board, i, j,i, j+1)) return true;
+			}
+		}
 		
+		return false;
 	}
 	
 	

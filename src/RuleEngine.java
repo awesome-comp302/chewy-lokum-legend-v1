@@ -72,6 +72,9 @@ public class RuleEngine {
 		int vert = countVert(board, x1, y1, (Matchable)cell.getCurrentObject());
 		int hor = countHor(board, x1, y1, (Matchable)cell.getCurrentObject());
 		
+		System.out.println("vert: "+vert);
+		System.out.println("hor: "+hor);
+		
 		
 		int result = NO_MATCH;
 		
@@ -82,6 +85,7 @@ public class RuleEngine {
 		if (hor >= MINIMUM_MATCH_REQUIRED) {
 			result += HORIZONTAL_MATCH;
 		}
+		System.out.println(result);
 		
 		return result;
 		
@@ -234,6 +238,9 @@ public class RuleEngine {
 		int y_count = y1+1;
 		while( board.inBoard(x1, y_count) ) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
+			System.out.println("bottom"
+					+ "current: "+current.getType());
+			System.out.println("candidate: "+ ((Lokum)candidate).getType());
 			if ((current instanceof Matchable) && 
 					(candidate.isMatched((Matchable)current))) {
 				y_count++;
@@ -251,6 +258,8 @@ public class RuleEngine {
 		int y_count =y1-1;
 		while( board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
+			System.out.println("topcurrent: "+current.getType());
+			System.out.println("candidate: "+ ((Lokum)candidate).getType());
 			if ((current instanceof Matchable) && 
 					(candidate.isMatched((Matchable)current))) {
 				y_count--;

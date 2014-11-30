@@ -50,6 +50,16 @@ b.   fillAllNothingsRandomly(), isThereNothing(),
    GamePlay.java .
 
 
+_________________________________________________________
+
+1. Discovered Issues & Bugs:
+---------------------------------------------------------
+
+a. Check method is working wrong sometimes. Because of 
+that isThereAvailableMove and swap methods are not 
+working properly. You can observe it by checking tests.
+
+
 
 			<End>
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||

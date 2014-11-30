@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class GamePlay {
 	
-	/** The score. */
+	/** The score of the game. */
 	private int score;
 	
 	/** The board. */
@@ -25,7 +25,10 @@ public class GamePlay {
 	/**
 	 * Instantiates a new game play.
 	 *
-	 * @param level the level
+	 * @param level: The Level played
+	 * @requires:
+	 * @modifies:
+	 * @ensures:
 	 */
 	public GamePlay(Level level) {
 		rules = RuleEngine.getInstance();
@@ -39,7 +42,8 @@ public class GamePlay {
 	/**
 	 * Gets the score.
 	 *
-	 * @return the score
+	 *@requires: repOk
+	 *@ensures: current score data is returned 
 	 */
 	public int getScore() {
 		return score;
@@ -47,7 +51,8 @@ public class GamePlay {
 	
 	/**
 	 * Gets the level id.
-	 *
+	 *@requires: level is non null
+	 *@ensures: is of the played level is returned
 	 * @return the level id
 	 */
 	public int getLevelId() {
@@ -56,42 +61,36 @@ public class GamePlay {
 	
 	/**
 	 * Gets the movements left.
-	 *
-	 * @return the movements left
+	 *@requires movementsLeft exists and initialized
+	 *@ensures: current movementsLeft field is returned
 	 */
 	public int getMovementsLeft() {
 		return movementsLeft;
 	}
-	/*
-	 * @requires repOk, 
-	 * 			RuleEngine have predicates gameEndedByMovements(int) and
-	 * 			isSwappable(Board b, int x1, int y1, int x2, int y2) are defined
-	 * 			and work correctly
-	 * 
-	 * @param x1
-	 *            : x of the first cell (0...width-1)
-	 * @param y1
-	 *            : y coordinate of the first cell (0...height-1)
-	 * @param x2
-	 *            : x of the second cell(from 0...width-1)
-	 * @param y2
-	 *            : x
-	 * @postconditions: swap operations should have done if returned true
-	 * @return
-	 */
+	
 /**
 	 * Tries to swap the objects in two cells specified by their coordinates.
-	 * If swap becomes successful, returns true. Otherwise, returns false
+	 * If swap becomes successful, returns true. Otherwise, returns false. 
 	 *
-	 * @author cgumeli
-	 * @param x1 the x1
-	 * @param y1 the y1
-	 * @param x2 the x2
-	 * @param y2 the y2
-	 * @return true, if successful
-	 * @custom.requires board field is non-null,rules field is nonnull, RuleEngine responds correctly.
-	 * @ensures if swap is verified, then cells in the board object is updated
-	 * returned true if swap is successful, false otherwise.
+	 * @requires 
+	 * <ul>
+	 * <li>board field is non-null</li>
+	 * <li>rules field is non-null</li>
+	 * <li>RuleEngine has instance predicate methods gameEndedByMovements(int) and isSwappable(Board, int, int, int). 
+	 * <li>board field is non-null, contains non-null cells with non-null ChewyObjects</li>
+	 * <li>Board has an instance method fillCellAt(int, int, ChewyObject)</li>
+	 * <li>integer field movementsLeft is initialized</li>
+	 * </ul>
+	 * @modifies if returned true;
+	 * <ul>
+	 * <li>board field</li>
+	 * <li>level field</li>
+	 * <li>movementsLeft field</li>
+	 * </ul>
+	 * @ensures
+	 * If swap returns true, then 
+	 * ChewyObjects of the cells at the board positions (x1, y1), (x2, y2) is exchanged.<br>
+	 * Otherwise, nothing will be changed.
 	 */
 	
 	public boolean swap(int x1, int y1, int x2, int y2) {
@@ -113,9 +112,7 @@ public class GamePlay {
 	}
 
 	/**
-	 * Gets the level.
-	 *
-	 * @return the level
+	 * Returns the level played.
 	 */
 	public Level getLevel() {
 		return level;
@@ -123,8 +120,9 @@ public class GamePlay {
 
 	/**
 	 * Sets the level.
-	 *
-	 * @param level the new level
+	 * @requires GamePlay has a field named Level of type Level
+	 * @modifies: level
+	 * @param level
 	 */
 	public void setLevel(Level level) {
 		this.level = level;
@@ -135,7 +133,16 @@ public class GamePlay {
 	 * These code may be refactored to an updater class later
 	 */
 	/**
-	 * Update board.
+	 * @requires MatchingScaleInformer class exists and visible to GamePlay.
+	 * @modifies 
+	 * <ul>
+	 * <li>board</li>
+	 * <li>level</li>
+	 * <li>score</li>
+	 * </ul>
+	 * @ensures
+	 * <ul>
+	 * <li>
 	 */
 	public void updateBoard() {
 		//generate scaling matrix
@@ -151,6 +158,7 @@ public class GamePlay {
 		if(isThereAvailableMove()) System.out.println("\nThere are available moves on the board."); 
 		else System.out.println("\nThere is NOT ANY available moves on the board.");
 		
+		dropAll();
 	}
 
 	/**

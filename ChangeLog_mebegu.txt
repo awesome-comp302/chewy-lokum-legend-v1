@@ -35,6 +35,20 @@ manage to fix it. Because of that isThereAvailableMove()
 method is not working properly.
 
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		*30 November 2014   13:30*
+_________________________________________________________
+
+1. Changes:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+a.   Test.java is revised,and ready to submit.
+
+###########
+
+b.   fillAllNothingsRandomly(), isThereNothing(), 
+   isThereAvailableMove(),and dropAll() methods moved to
+   GamePlay.java .
+
 
 
 			<End>

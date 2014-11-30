@@ -1,4 +1,4 @@
-import java.util.Random;
+
 
 
 public class Main {
@@ -59,62 +59,9 @@ public class Main {
 		
 	}
 	
-	private static void fillRandomlyTest(){
-		Board b = new Board(5, 5);
-		Level l = new Level(10, 10, b, 2);
-		GamePlay gp = new GamePlay(l);
-		while (isThereNothing(b)) {
-			fillAllNothingsRandomly(b);
-			gp.updateBoard();
-		}
-		System.out.println(b);
-	}
-	
-	private static void dropTest(){
-		Board b3 = new Board(3, 6);
-		Level l3 = new Level(10, 10, b3, 4);
-		GamePlay gp3 = new GamePlay(l3);
-		b3.fillCellAt(0, 0, new Lokum("brown hazelnut"));
-		b3.fillCellAt(1, 0, new Lokum("green pistachio"));
-		b3.fillCellAt(2, 0, new Lokum("red rose"));
-		b3.fillCellAt(2, 1, new Lokum("red rose"));
-		b3.fillCellAt(1, 4, new Lokum("green pistachio"));
-		System.out.println(b3);
-		gp3.dropAll();
-		System.out.println(b3);
-		
-	}
-	
-	
-	
-	
-	private static boolean isThereNothing(Board b) {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < b.getWidth(); i++) {
-			for (int j = 0; j < b.getHeight(); j++) {
-				if (b.cellAt(i, j).getCurrentObject().getType().equalsIgnoreCase("empty")) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
-	private static void fillAllNothingsRandomly(Board b) {
-		String str[] = Lokum.possibleTypes;
-		for (int i = 0; i < b.getWidth(); i++) {
-			for (int j = 0; j < b.getHeight(); j++) {
-				if (b.cellAt(i, j).getCurrentObject().getType().equalsIgnoreCase("empty")) {
-					Lokum currentLokum = new Lokum(str[new Random().nextInt(str.length)]);
-					b.fillCellAt(i, j, currentLokum);
-				}
-				
-			}
-		}
-		
-		
-		
-	}
+	
+
 
 	public static void main2(String[] args) {
 		// TODO Auto-generated method stub

@@ -1,18 +1,14 @@
-import java.util.Random;
-
 
 public class Test {
 	
-	private static Board bRandom;
 	private static Board bPrepared = new Board(3, 3);;
-	private static int width=3;
-	private static int height =3;
 	private static Level testLevel;
 	private static GamePlay testGame;
 	
 	
 
 	//Class Board, method Board, testing legal constructor values
+	@SuppressWarnings("unused")
 	public static void LegalBoardConstructor(){
 		try{
 			Board b = new Board(10,10);
@@ -23,6 +19,7 @@ public class Test {
 	}
 
 	//Class Board, method Board, testing illegal constructor values
+	@SuppressWarnings("unused")
 	public static void IllegalBoardConstructor(){
 		try{
 			Board b = new Board(0,0);
@@ -45,6 +42,7 @@ public class Test {
 	}
 	
 	//Class Level, method Level, testing legal constructor values
+	@SuppressWarnings("unused")
 	public static void LegalLevelConstructor(){
 		int passingScore = 1;
 		int possibleMovements = 1;
@@ -59,6 +57,7 @@ public class Test {
 	}
 
 	//Class Level, method Level, testing illegal constructor values
+	@SuppressWarnings("unused")
 	public static void IllegalLevelConstructor(){
 		int passingScore = 0;
 		int possibleMovements = 1;
@@ -73,6 +72,7 @@ public class Test {
 	}
 	
 	//Class Board, method cellAt, testing accessing a legal position of the board
+	@SuppressWarnings("unused")
 	public static void LegalcellAt(){
 		try{
 			Board b = new Board(5, 5);
@@ -84,6 +84,7 @@ public class Test {
 	}
 
 	//Class Board, method CellAt, testing trying to access cells of illegal positions
+	@SuppressWarnings("unused")
 	public static void IllegalcellAt(){
 		Board b = new Board(10,10);
 		try {
@@ -148,58 +149,19 @@ public class Test {
 		}
 	}
 	
-	//Class Board, method constructor, testing creating and random initialization of new board with lokums
-	public static void boardInitRandomly(int width, int height) {
-		ChewyObject initObjects[][] = new ChewyObject[width][height];
-		Random rand = new Random();
-		int sel;
-		for (int i = 0; i < initObjects.length; i++) {
-			for (int j = 0; j < initObjects[0].length; j++) {
-				sel = rand.nextInt(3);
-				sel %= 3;
-				switch (sel) {
-				case 0:
-					initObjects[i][j] = new Lokum("A");
-					break;
-				case 1:
-					initObjects[i][j] = new Lokum("B");
-					break;
-				case 2:
-					initObjects[i][j] = new Lokum("C");
-					break;
-				default:
-					System.err.println("Do something to handle this error.");
-				}
-			}
-		}
-		
-		bRandom = new Board(width, height);
-		for (int i = 0; i < bRandom.getWidth(); i++) {
-			for (int j = 0; j < bRandom.getHeight(); j++) {
-				bRandom.fillCellAt(i, j, initObjects[i][j]);
-			}
-		}
-		
-		if(bRandom.repOk()){
-			System.out.println("Successfull!! Board created and filled randomly.");
-			System.out.println(bRandom.status());
-			System.out.println(bRandom);
-		}
-		else
-			System.out.println("Fail!! Board couldn't have created or filled randomly.");
-	}
+
 
 	//Class Board, method fillCellAt, Class Lokum, method Lokum, testing filling certain spots on board with new Lokums
 	public static void prapareBoardForFurtherOp(){
-		bPrepared.fillCellAt(0, 0, new Lokum("A"));
-		bPrepared.fillCellAt(0, 1, new Lokum("B"));
-		bPrepared.fillCellAt(0, 2, new Lokum("A"));
-		bPrepared.fillCellAt(1, 0, new Lokum("B"));
-		bPrepared.fillCellAt(1, 1, new Lokum("A"));
-		bPrepared.fillCellAt(1, 2, new Lokum("C"));
-		bPrepared.fillCellAt(2, 0, new Lokum("A"));
-		bPrepared.fillCellAt(2, 1, new Lokum("A"));
-		bPrepared.fillCellAt(2, 2, new Lokum("C"));
+		bPrepared.fillCellAt(0, 0, new Lokum("brown hazelnut"));
+		bPrepared.fillCellAt(0, 1, new Lokum("green pistachio"));
+		bPrepared.fillCellAt(0, 2, new Lokum("brown hazelnut"));
+		bPrepared.fillCellAt(1, 0, new Lokum("green pistachio"));
+		bPrepared.fillCellAt(1, 1, new Lokum("brown hazelnut"));
+		bPrepared.fillCellAt(1, 2, new Lokum("red rose"));
+		bPrepared.fillCellAt(2, 0, new Lokum("brown hazelnut"));
+		bPrepared.fillCellAt(2, 1, new Lokum("brown hazelnut"));
+		bPrepared.fillCellAt(2, 2, new Lokum("red rose"));
 		
 		if(bPrepared.repOk()){
 			System.out.println("Successfull!! Prepared Board is ready to further tests.");
@@ -331,6 +293,85 @@ public class Test {
 		System.out.println(bPrepared);
 		System.out.println(testGame.movementsLeft());
 	}
+	
+	private static void dropTest(){
+		Board b3 = new Board(3, 6);
+		Level l3 = new Level(10, 10, b3, 4);
+		GamePlay gp3 = new GamePlay(l3);
+		b3.fillCellAt(0, 0, new Lokum("brown hazelnut"));
+		b3.fillCellAt(1, 0, new Lokum("green pistachio"));
+		b3.fillCellAt(2, 0, new Lokum("red rose"));
+		b3.fillCellAt(2, 1, new Lokum("red rose"));
+		b3.fillCellAt(1, 4, new Lokum("green pistachio"));
+		System.out.println(b3);
+		gp3.dropAll();
+		System.out.println(b3);
+		
+	}
+	
+	private static void isThereNothingTest() {
+		Board b2 = new Board(3, 3);
+		Level l2 = new Level(10, 10, b2, 50);
+		GamePlay gp2 = new GamePlay(l2);
+		
+		b2.fillCellAt(0, 0, new Lokum("brown hazelnut"));
+		b2.fillCellAt(1, 0, new Lokum("green pistachio"));
+		b2.fillCellAt(2, 0, new Lokum("red rose"));
+		b2.fillCellAt(0, 2, new Lokum("red rose"));
+		b2.fillCellAt(1, 1, new Lokum("brown hazelnut"));
+		b2.fillCellAt(2, 1, new Lokum("white coconut"));
+		b2.fillCellAt(1, 2, new Lokum("green pistachio"));
+		b2.fillCellAt(0, 1, new Lokum("red rose"));
+		if(gp2.isThereNothing()) System.out.println("There is an empty cell.");
+		else System.out.println("All cells has component.");
+		System.out.println(b2);
+		
+		b2.fillCellAt(2, 2, new Lokum("white coconut"));
+		if(gp2.isThereNothing()) System.out.println("There is an empty cell.");
+		else System.out.println("All cells has component.");
+		System.out.println(b2);
+	}
+	
+	
+	private static void isThereAvailableMoveTest() {
+		Board b2 = new Board(3, 3);
+		Level l2 = new Level(10, 10, b2, 3);
+		GamePlay gp2 = new GamePlay(l2);
+		
+		b2.fillCellAt(0, 0, new Lokum("brown hazelnut"));
+		b2.fillCellAt(1, 0, new Lokum("green pistachio"));
+		b2.fillCellAt(2, 0, new Lokum("red rose"));
+		b2.fillCellAt(0, 2, new Lokum("red rose"));
+		b2.fillCellAt(1, 1, new Lokum("brown hazelnut"));
+		b2.fillCellAt(2, 2, new Lokum("white coconut"));
+		b2.fillCellAt(2, 1, new Lokum("white coconut"));
+		b2.fillCellAt(1, 2, new Lokum("green pistachio"));
+		b2.fillCellAt(0, 1, new Lokum("red rose"));
+		gp2.updateBoard();
+		System.out.println(b2);
+		
+		
+
+		b2.fillCellAt(1, 0, new Lokum("white coconut"));
+		gp2.updateBoard();
+		gp2.swap(1, 0, 2, 0);
+		System.out.println(b2);
+		
+		
+	}
+	
+	
+	private static void fillRandomlyTest(){
+		Board b3 = new Board(5, 5);
+		Level l3 = new Level(10, 10,b3 , 10);
+		GamePlay gp3 = new GamePlay(l3);
+		while (gp3.isThereNothing()) {
+			gp3.fillAllNothingsRandomly();
+			gp3.updateBoard();
+		}
+		System.out.println(b3);
+	}
+
 		
 	public static void main(String[] args) {
 		LegalBoardConstructor();
@@ -341,87 +382,65 @@ public class Test {
 		IllegalcellAt();
 		LegalfillCellAt();
 		IllegalfillCellAt();
+
 		
-		System.out.println(testSplitter());
-		boardInitRandomly(width,height);
-		
-		System.out.println(testSplitter());
+		System.out.println(testSplitter("Initializing a board by hand. The board will be used further operations."));
 		prapareBoardForFurtherOp();
 		System.out.println(bPrepared.status());
 		System.out.println(bPrepared);
 		
-		System.out.println(testSplitter());
+		System.out.println(testSplitter("Initializing a level."));
 		initLevel();
 		
-		System.out.println(testSplitter());
+		System.out.println(testSplitter("Initializing a game."));
 		initGame();
 		
-		System.out.println(testSplitter());	
+		System.out.println(testSplitter("Successful horizontal swap test."));	
 		successfulHorSwap();
 		System.out.println("Resetting the prepared board.");
 		prapareBoardForFurtherOp();
 		
-		System.out.println(testSplitter());
+		System.out.println(testSplitter("Successful vertical swap test."));
 		successfulVerSwap();
 		System.out.println("Resetting the prepared board.");
 		prapareBoardForFurtherOp();
 		
-		System.out.println(testSplitter());
+		System.out.println(testSplitter("Successful cross swap test."));
 		successfulCrossSwap();
 		System.out.println("Resetting the prepared board.");
 		prapareBoardForFurtherOp();
 		
-		System.out.println(testSplitter());
+		System.out.println(testSplitter("Failed horizontal swap test."));
 		failedHorSwap();
 		
-		System.out.println(testSplitter());
+		System.out.println(testSplitter("Failed vertical swap test."));
 		FailedVerSwap();
 		
-		System.out.println(testSplitter());
+		System.out.println(testSplitter("Failed cross swap test."));
 		FailedCrossSwap();
+		
+		System.out.println(testSplitter("Testing the method that searches for an empty cell on board."));
+		isThereNothingTest();
+		
+		System.out.println(testSplitter("Testing the drop method which make objects fall until their bottom is not empty."));
+		dropTest();
+		
+		System.out.println(testSplitter("Testing the isThereAvailableMove method which searches for an available move."));
+		isThereAvailableMoveTest();
+		
+		System.out.println(testSplitter("Initializing an empty board, a associated level and game,then filling that board randomly."));
+		fillRandomlyTest();
 
 	}
 	
-	private static String testSplitter(){
+
+	private static String testSplitter(String s){
 		return "\n----------------\n" +
 	           "  Next Test  \n" +
+			   "Test Description: \n"+s+"\n"+
 		       "----------------\n";
 	}
-	
-	//-------------- **Old Stuff** -----------------
-	
-	/*// TODO Auto-generated method stub
-	Board b = new Board(3, 3);
-	Random rand = new Random();
-	int sel = 0;
-	for (int i = 0; i < b.getWidth(); i++) {
-		for (int j = 0; j < b.getHeight(); j++) {
-			sel %= 3;
-			switch (sel) {
-			case 0:
-				b.fillCellAt(i, j, new Lokum("A"));
-				break;
-			case 1:
-				b.fillCellAt(i, j, new Lokum("B"));
-				break;
-			case 2:
-				b.fillCellAt(i, j, new Lokum("C"));
-				break;
-			default:
-				System.err.println("Sıçtık");
-			}
-		}
-		sel++;
-	}
-	b.fillCellAt(0, 1, new Lokum("B"));
-	b.fillCellAt(1, 1, new Lokum("A"));
-	GamePlay gp = new GamePlay(new Level(9, b, 1));
-	System.out.println(b);
-	System.out.println(gp.swap(0, 1, 1, 1));
-	
-	System.out.println(b);*/	
-			
-			
+
 	
 
 }

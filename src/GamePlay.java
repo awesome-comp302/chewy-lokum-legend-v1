@@ -1,3 +1,5 @@
+import java.util.Random;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -146,7 +148,8 @@ public class GamePlay {
 		score = calculateScore(scaleMatrix);
 		
 		//Checking if the board is playable
-		if(isThereAvailableMove()) System.out.println("\nBoard is playable"); else System.out.println("\nBoard is NOT playable");
+		if(isThereAvailableMove()) System.out.println("\nThere are available moves on the board."); 
+		else System.out.println("\nThere is NOT ANY available moves on the board.");
 		
 	}
 
@@ -236,6 +239,34 @@ public class GamePlay {
 		
 		return false;
 	}
+	
+	public boolean isThereNothing() {
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				if (board.cellAt(i, j).getCurrentObject().getType().equalsIgnoreCase("empty")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public void fillAllNothingsRandomly() {
+		String str[] = Lokum.possibleTypes;
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				if (board.cellAt(i, j).getCurrentObject().getType().equalsIgnoreCase("empty")) {
+					Lokum currentLokum = new Lokum(str[new Random().nextInt(str.length)]);
+					board.fillCellAt(i, j, currentLokum);
+				}
+
+			}
+
+		}
+	}
+		
+	
+	
 	
 	
 

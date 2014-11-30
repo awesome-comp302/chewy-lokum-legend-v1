@@ -5,7 +5,7 @@
  */
 public class GamePlay {
 	
-	/** The score. */
+	/** The score of the game. */
 	private int score;
 	
 	/** The board. */
@@ -23,7 +23,10 @@ public class GamePlay {
 	/**
 	 * Instantiates a new game play.
 	 *
-	 * @param level the level
+	 * @param level: The Level played
+	 * @requires:
+	 * @modifies:
+	 * @ensures:
 	 */
 	public GamePlay(Level level) {
 		rules = RuleEngine.getInstance();
@@ -37,7 +40,8 @@ public class GamePlay {
 	/**
 	 * Gets the score.
 	 *
-	 * @return the score
+	 *@requires: repOk
+	 *@ensures: current score data is returned 
 	 */
 	public int getScore() {
 		return score;
@@ -45,7 +49,8 @@ public class GamePlay {
 	
 	/**
 	 * Gets the level id.
-	 *
+	 *@requires: level is non null
+	 *@ensures: is of the played level is returned
 	 * @return the level id
 	 */
 	public int getLevelId() {
@@ -61,10 +66,12 @@ public class GamePlay {
 		return movementsLeft;
 	}
 	/*
-	 * @requires repOk, 
-	 * 			RuleEngine have predicates gameEndedByMovements(int) and
-	 * 			isSwappable(Board b, int x1, int y1, int x2, int y2) are defined
-	 * 			and work correctly
+	 * @requires:
+	 * 			Rule
+	 *
+	 * 			RuleEngine class have predicates gameEndedByMovements(int) and
+	 * 			isSwappable(Board b, int x1, int y1, int x2, int y2)
+	 * 			and they work correctly
 	 * 
 	 * @param x1
 	 *            : x of the first cell (0...width-1)
@@ -87,7 +94,8 @@ public class GamePlay {
 	 * @param x2 the x2
 	 * @param y2 the y2
 	 * @return true, if successful
-	 * @custom.requires board field is non-null,rules field is nonnull, RuleEngine responds correctly.
+	 * @requires board field is non-null,rules field is nonnull,
+	 *  RuleEngine responds correctly.
 	 * @ensures if swap is verified, then cells in the board object is updated
 	 * returned true if swap is successful, false otherwise.
 	 */

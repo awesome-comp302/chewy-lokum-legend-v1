@@ -1,14 +1,19 @@
 public class RuleEngine {
 
 	private static RuleEngine instance;
-	public static final int NO_MATCH = 0, VERTICAL_MATCH = 1,
-			HORIZONTAL_MATCH = 2, VH_MATCH = VERTICAL_MATCH + HORIZONTAL_MATCH;
+	// public static final int NO_MATCH = 0, VERTICAL_MATCH = 1,
+	// HORIZONTAL_MATCH = 2, VH_MATCH = VERTICAL_MATCH + HORIZONTAL_MATCH;
 	// CROSS_MATCH = 3,
 
 	// HC_MATCH = HORIZONTAL_MATCH + CROSS_MATCH,//HORIZONTAL-CROSS
 	// VH_MATCH = VERTICAL_MATCH + HORIZONTAL_MATCH,//VERTICAL-HORIZONTAL
 	// CV_MATCH = CROSS_MATCH + VERTICAL_MATCH,//CROSS-VERTICAL MARCH
 	// HCV_MATCH = HORIZONTAL_MATCH + CV_MATCH;
+
+	public static final int REGULAR = 7;
+	public static final int STRIPED = 4;
+	public static final int WRAPPED = 5;
+	public static final int COLOR_BOMB = 6;
 
 	public static final int MINIMUM_MATCH_REQUIRED = 3;
 
@@ -23,9 +28,6 @@ public class RuleEngine {
 		return instance;
 	}
 
-	
-
-	
 	/**
 	 * @requires: board and cellAt is non null and NO_MATCH should be 0
 	 * @ensures: returns the value of the correct constant
@@ -38,7 +40,7 @@ public class RuleEngine {
 	 */
 	public MatchingScaleInformer getMatchingScaleInformer(Board board, int x1,
 			int y1, ChewyObject object) {
-		
+
 		MatchingScaleInformer info = new MatchingScaleInformer();
 		if (!(object instanceof Matchable)) {
 			return info;
@@ -70,12 +72,11 @@ public class RuleEngine {
 			return false;
 		}
 
-		
 		MatchingScaleInformer msi1 = getMatchingScaleInformer(board, x1, y1,
 				board.cellAt(x2, y2).getCurrentObject());
 		MatchingScaleInformer msi2 = getMatchingScaleInformer(board, x2, y2,
 				board.cellAt(x1, y1).getCurrentObject());
-		
+
 		if (!shouldErased(msi1) && !shouldErased(msi2)) {
 			return false;
 		}
@@ -125,10 +126,11 @@ public class RuleEngine {
 		return sum;
 	}
 
-	/*private int countVert(Board board, int x1, int y1, Matchable candidate) {
-		return 1 + countTop(board, x1, y1, candidate)
-				+ countBottom(board, x1, y1, candidate);
-	}*/
+	/*
+	 * private int countVert(Board board, int x1, int y1, Matchable candidate) {
+	 * return 1 + countTop(board, x1, y1, candidate) + countBottom(board, x1,
+	 * y1, candidate); }
+	 */
 
 	private int countBottom(Board board, int x1, int y1, Matchable candidate) {
 		int sum = 0;
@@ -192,7 +194,7 @@ public class RuleEngine {
 		if (msi.getLeftScale() == 0) {
 
 			int rightScale = msi.getRightScale();
-			if (rightScale >= MINIMUM_MATCH_REQUIRED - 1) {
+			if (rightScale == MINIMUM_MATCH_REQUIRED - 1) {
 				score += rightScale * 20;
 			}
 		}
@@ -204,6 +206,60 @@ public class RuleEngine {
 		}
 
 		return score;
+	}
+
+	public int getSpecialityCode(MatchingScaleInformer msi) {
+		
+		int hms = msi.horizontalMatchTotalScale();
+		int vms = msi.verticalMatchTotalScale();
+		if (hms == 5 ||
+				vms == 5) {
+			return COLOR_BOMB;
+		}
+		
+		if (hms == 3 && vms == 3) {
+			return WRAPPED;
+		}
+		
+		if (hms == 4
+				|| vms == 4) {
+			return STRIPED;
+		}
+		
+		return REGULAR;
+		
+	}
+
+	public boolean isSpecialCase(int specialityCode) {
+		// TODO Auto-generated method stub
+		return specialityCode == STRIPED || specialityCode == WRAPPED
+				|| specialityCode == COLOR_BOMB;
+	}
+
+	/**
+	 * @requires: specialityCode should reference to a special case
+	 * @param specialityCode
+	 * @return
+	 */
+	public SpecialLokum getRelevantSpecialObject(int specialityCode) {
+		SpecialLokum sl = null;
+		
+		switch (specialityCode) {
+		case STRIPED:
+			sl = new SpecialLokum("Striped");
+			break;
+			
+		case WRAPPED:
+			sl = new SpecialLokum("Wrapped");
+			break;
+		
+		case COLOR_BOMB:
+			sl = new SpecialLokum("Color Bomb");
+		break;
+		}
+		
+		return sl;
+		
 	}
 
 }

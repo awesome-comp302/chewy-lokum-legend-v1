@@ -21,6 +21,12 @@ public class Position {
 		this.y = y;
 	}
 	
-	
+	public boolean isSamePlace(Position p) {
+		if (p == null ) {
+			return false;
+		}
+		return p.x == x &&
+				p.y == y;
+	}
 
 }

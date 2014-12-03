@@ -16,6 +16,7 @@ public class Lokum extends ChewyObject implements Matchable{
 	 * 
 	 */
 	public Lokum(String type) throws IllegalArgumentException{
+		
 		if(isValid(type)) {
 			this.type = type;
 		} else {
@@ -25,7 +26,7 @@ public class Lokum extends ChewyObject implements Matchable{
 	
 	
 
-	private boolean isValid(String type) {
+	protected boolean isValid(String type) {
 		return Arrays.binarySearch(possibleTypes, type) >= 0;
 	}
 

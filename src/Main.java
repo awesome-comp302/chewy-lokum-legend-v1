@@ -7,9 +7,51 @@ public class Main {
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	public static void main(String[] args) {
-
-		bug();
+		
+		Board b = new Board(5, 3);
+		String A = "red rose";
+		String B = "green pistachio";
+		String C = "white coconut";
+		
+		b.fillCellAt(0, 0, new Lokum(A));
+		b.fillCellAt(1, 0, new Lokum(A));
+		b.fillCellAt(2, 0, new Lokum(C));
+		b.fillCellAt(3, 0, new Lokum(A));
+		b.fillCellAt(4, 0, new Lokum(B));
+		
+		b.fillCellAt(0, 1, new Lokum(C));
+		b.fillCellAt(1, 1, new Lokum(B));
+		b.fillCellAt(2, 1, new Lokum(A));
+		b.fillCellAt(3, 1 , new Lokum(B));
+		b.fillCellAt(4, 1, new Lokum(A));
+		
+		b.fillCellAt(0, 2, new Lokum(A));
+		b.fillCellAt(1, 2, new Lokum(B));
+		b.fillCellAt(2, 2, new Lokum(A));
+		b.fillCellAt(3, 2, new Lokum(B));
+		b.fillCellAt(4, 2, new Lokum(A));
+		
+		System.out.println(b);
+		
+		GamePlay gp = new GamePlay(new Level(90, 100, b, 1));
+		/* Testing Stripe
+		if(gp.swap(2, 1, 2, 0)) gp.updateBoard();
+		*/
+		
+		/*if (gp.swap(2, 1, 2, 0)) {
+			if (gp.swap(4, 1, 4, 0)) {
+				gp.updateBoard();
+			}
+		}*/
+		
+		if (gp.swap(2, 0, 3, 0)) {
+			gp.updateBoard();
+		}
+		
+		System.out.println(b);
+		
 	}
 	
 	private static void bug(){

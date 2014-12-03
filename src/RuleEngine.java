@@ -212,6 +212,7 @@ public class RuleEngine {
 		
 		int hms = msi.horizontalMatchTotalScale();
 		int vms = msi.verticalMatchTotalScale();
+		
 		if (hms == 5 ||
 				vms == 5) {
 			return COLOR_BOMB;
@@ -241,7 +242,7 @@ public class RuleEngine {
 	 * @param specialityCode
 	 * @return
 	 */
-	/*public SpecialLokum getRelevantSpecialObject(int specialityCode) {
+	public SpecialLokum getRelevantSpecialObject(int specialityCode) {
 		SpecialLokum sl = null;
 		
 		switch (specialityCode) {
@@ -261,5 +262,5 @@ public class RuleEngine {
 		return sl;
 		
 	}
-*/
+
 }

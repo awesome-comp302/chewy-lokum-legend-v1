@@ -37,8 +37,8 @@ public class Main {
 		
 		GamePlay gp = new GamePlay(new Level(90, 100, b, 1));
 		/* Testing Stripe
-		if(gp.swap(2, 1, 2, 0)) gp.updateBoard();
-		*/
+		*/if(gp.swap(2, 1, 2, 0)) gp.updateBoard();
+		
 		
 		/*Testing Color Bomb
 		 * if (gp.swap(2, 1, 2, 0)) {
@@ -51,9 +51,9 @@ public class Main {
 		/*Testing Wrapped
 		if (gp.swap(2, 0, 3, 0)) {
 			gp.updateBoard();
-		}
+		}*/
 		
-		System.out.println(b);*/
+		System.out.println(b);
 		
 		bug();
 		

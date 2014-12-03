@@ -152,8 +152,9 @@ public class GamePlay {
 	 *          <li>
 	 */
 	public void updateBoard() {
-		while(true){
-			while (isThereNothing()) {
+		
+		//while(true){
+			//while (isThereNothing()) {
 				// Checking if the board is playable
 				fillAllNothingsRandomly();
 			
@@ -167,13 +168,13 @@ public class GamePlay {
 				score = calculateScore(scaleMatrix);
 
 				// drop objects if necessary
-				dropAll();
+				//dropAll();
 			
-			}
+			//}
 			
-			if(isThereAvailableMove()) break;
+			//if(isThereAvailableMove()) break;
 			//else shuffle *TO BE IMPLEMENTED*
-		}
+		//}
 		
 		
 
@@ -211,12 +212,11 @@ public class GamePlay {
 
 				ChewyObject currentObject = board.cellAt(i, j).getCurrentObject();
 				eraseForNormal(currentMSI, i, j);
-				/*if (currentObject instanceof SpecialLokum) {
+				if (currentObject instanceof SpecialLokum) {
 					eraseForSpecial(currentMSI, i, j);
 				} else {
-					//System.err.println("update is here");
 					eraseForNormal(currentMSI, i, j);
-				}*/
+				}
 			}
 		}
 	}
@@ -229,14 +229,17 @@ public class GamePlay {
 		 * of the recently 
 		 * swapped objects
 		 */
-		/*if (recentlySwapped(new Position(i, j))) {	
+		if (recentlySwapped(new Position(i, j))) {
+			System.err.println("i am here");
 			int specialityCode = rules.getSpecialityCode(currentMSI);
 //			System.err.println("update is here:" +specialityCode);
+			
 			if (rules.isSpecialCase(specialityCode)) {
 				board.fillCellAt(i, j,
 						rules.getRelevantSpecialObject(specialityCode));
 			}
-		}*/
+		}
+		System.out.println();
 
 	}
 	
@@ -247,8 +250,10 @@ public class GamePlay {
 
 	private boolean recentlySwapped(Position p) {
 		// TODO Auto-generated method stub
+		//System.out.println(p);
+		//System.out.println(Arrays.toString(successfullSwapLog));
 		return p.isSamePlace(successfullSwapLog[0])
-				&& p.isSamePlace(successfullSwapLog[1]);
+				|| p.isSamePlace(successfullSwapLog[1]);
 	}
 
 	private Position getCounterPartPositionOfMatrixIndex(int i, int j) {

@@ -241,7 +241,7 @@ public class RuleEngine {
 	 * @param specialityCode
 	 * @return
 	 */
-	public SpecialLokum getRelevantSpecialObject(int specialityCode) {
+	/*public SpecialLokum getRelevantSpecialObject(int specialityCode) {
 		SpecialLokum sl = null;
 		
 		switch (specialityCode) {
@@ -261,5 +261,5 @@ public class RuleEngine {
 		return sl;
 		
 	}
-
+*/
 }

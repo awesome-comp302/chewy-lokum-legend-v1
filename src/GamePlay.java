@@ -152,20 +152,31 @@ public class GamePlay {
 	 *          <li>
 	 */
 	public void updateBoard() {
-		// generate scaling matrix
-		MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
+		while(true){
+			while (isThereNothing()) {
+				// Checking if the board is playable
+				fillAllNothingsRandomly();
+			
+				// generate scaling matrix
+				MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
 
-		// erase all matched cells
-		eraseAllMatches(scaleMatrix);
+				// erase all matched cells
+				eraseAllMatches(scaleMatrix);
 
-		// update the score;
-		score = calculateScore(scaleMatrix);
+				// update the score;
+				score = calculateScore(scaleMatrix);
 
-		// drop objects if necessary
-		//dropAll(); ->update for special Lokums
+				// drop objects if necessary
+				dropAll();
+			
+			}
+			
+			if(isThereAvailableMove()) break;
+			//else shuffle *TO BE IMPLEMENTED*
+		}
+		
+		
 
-		// Checking if the board is playable
-		//fillAllNothingsRandomly();
 
 	}
 
@@ -199,12 +210,13 @@ public class GamePlay {
 				MatchingScaleInformer currentMSI = scaleMatrix[j][i];
 
 				ChewyObject currentObject = board.cellAt(i, j).getCurrentObject();
-				if (currentObject instanceof SpecialLokum) {
+				eraseForNormal(currentMSI, i, j);
+				/*if (currentObject instanceof SpecialLokum) {
 					eraseForSpecial(currentMSI, i, j);
 				} else {
 					//System.err.println("update is here");
 					eraseForNormal(currentMSI, i, j);
-				}
+				}*/
 			}
 		}
 	}
@@ -217,14 +229,14 @@ public class GamePlay {
 		 * of the recently 
 		 * swapped objects
 		 */
-		if (recentlySwapped(new Position(i, j))) {	
+		/*if (recentlySwapped(new Position(i, j))) {	
 			int specialityCode = rules.getSpecialityCode(currentMSI);
 //			System.err.println("update is here:" +specialityCode);
 			if (rules.isSpecialCase(specialityCode)) {
 				board.fillCellAt(i, j,
 						rules.getRelevantSpecialObject(specialityCode));
 			}
-		}
+		}*/
 
 	}
 	
@@ -267,7 +279,7 @@ public class GamePlay {
 		return score;
 	}
 
-	public void dropAll() {
+	private void dropAll() {
 		for (int i = board.getWidth() - 1; i > -1; i--) {
 			for (int j = board.getHeight() - 1; j > -1; j--) {
 				if (board.cellAt(i, j).getCurrentObject().getType()
@@ -307,7 +319,7 @@ public class GamePlay {
 		return false;
 	}
 
-	public boolean isThereNothing() {
+	private boolean isThereNothing() {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				if (board.cellAt(i, j).getCurrentObject().getType()
@@ -319,7 +331,7 @@ public class GamePlay {
 		return false;
 	}
 
-	public void fillAllNothingsRandomly() {
+	private void fillAllNothingsRandomly() {
 		String str[] = Lokum.possibleTypes;
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {

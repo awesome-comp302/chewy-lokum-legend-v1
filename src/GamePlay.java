@@ -235,8 +235,8 @@ public class GamePlay {
 
 	private boolean recentlySwapped(Position p) {
 		// TODO Auto-generated method stub
-		return successfullSwapLog[0].isSamePlace(p)
-				|| successfullSwapLog[1].isSamePlace(p);
+		return p.isSamePlace(successfullSwapLog[0])
+				&& p.isSamePlace(successfullSwapLog[1]);
 	}
 
 	private Position getCounterPartPositionOfMatrixIndex(int i, int j) {

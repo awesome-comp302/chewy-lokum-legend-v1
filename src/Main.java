@@ -40,17 +40,22 @@ public class Main {
 		if(gp.swap(2, 1, 2, 0)) gp.updateBoard();
 		*/
 		
-		/*if (gp.swap(2, 1, 2, 0)) {
+		/*Testing Color Bomb
+		 * if (gp.swap(2, 1, 2, 0)) {
 			if (gp.swap(4, 1, 4, 0)) {
 				gp.updateBoard();
 			}
 		}*/
 		
+		
+		/*Testing Wrapped
 		if (gp.swap(2, 0, 3, 0)) {
 			gp.updateBoard();
 		}
 		
-		System.out.println(b);
+		System.out.println(b);*/
+		
+		bug();
 		
 	}
 	

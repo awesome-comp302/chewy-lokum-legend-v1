@@ -138,8 +138,8 @@ public class RuleEngine {
 		int y_count = y1 + 1;
 		while (board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
-			System.out.println("bottom" + "current: " + current.getType());
-			System.out.println("candidate: " + ((Lokum) candidate).getType());
+			//System.out.println("bottom" + "current: " + current.getType());
+			//System.out.println("candidate: " + ((Lokum) candidate).getType());
 			if ((current instanceof Matchable)
 					&& (candidate.isMatched((Matchable) current))) {
 				y_count++;
@@ -157,8 +157,8 @@ public class RuleEngine {
 		int y_count = y1 - 1;
 		while (board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
-			System.out.println("topcurrent: " + current.getType());
-			System.out.println("candidate: " + ((Lokum) candidate).getType());
+			//System.out.println("topcurrent: " + current.getType());
+			//System.out.println("candidate: " + ((Lokum) candidate).getType());
 			if ((current instanceof Matchable)
 					&& (candidate.isMatched((Matchable) current))) {
 				y_count--;

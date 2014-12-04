@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.util.Random;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class GamePlay.
  */
-public class GamePlay {
+public class GamePlay implements Serializable{
 
 	/** The score of the game. */
 	private int score;
@@ -22,6 +23,7 @@ public class GamePlay {
 	private RuleEngine rules;
 
 	private Position successfullSwapLog[];
+	private Lokum swappedObject1, swappedObject2;
 	
 	private boolean swapOccured;
 
@@ -113,8 +115,16 @@ public class GamePlay {
 
 		successfullSwapLog[0] = new Position(x1, y1);
 		successfullSwapLog[1] = new Position(x2, y2);
+		
 		Cell cell1 = board.cellAt(x1, y1);
 		Cell cell2 = board.cellAt(x2, y2);
+		swappedObject1 = (Lokum)cell1.getCurrentObject();
+		swappedObject2  = (Lokum)cell2.getCurrentObject();
+		
+		score += rules.getSpecialMoveScore(x1, y1, x2, y2, board, swappedObject1, swappedObject2);
+		score += rules.getUsingScore(x1, y1, board, swappedObject1);
+		score += rules.getUsingScore(x2, y2, board, swappedObject2);
+		
 		ChewyObject temp = cell1.getCurrentObject();
 		board.fillCellAt(x1, y1, cell2.getCurrentObject());
 		board.fillCellAt(x2, y2, temp);
@@ -205,6 +215,7 @@ public class GamePlay {
 				// drop objects if necessary
 				dropAll();
 			
+				
 			}
 			
 			if(isThereAvailableMove()) break;
@@ -248,44 +259,95 @@ public class GamePlay {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				MatchingScaleInformer currentMSI = scaleMatrix[j][i];
+				ChewyObject current = board.cellAt(i, j).getCurrentObject();
+				if (rules.shouldErased(currentMSI)) {
+					Lokum lokum = (Lokum)current;
+					if (lokum.isSpecial()) {
+						eraseForSpecial(currentMSI, i, j);
+					} else {
+						eraseForNormal(currentMSI, i, j);
+					}
+				}
+				
+			}
+		}
+	}
 
-				ChewyObject currentObject = board.cellAt(i, j).getCurrentObject();
-				eraseForNormal(currentMSI, i, j);
-				if (currentObject instanceof SpecialLokum) {
-					eraseForSpecial(currentMSI, i, j);
-				} else {
-					eraseForNormal(currentMSI, i, j);
+
+	private void eraseForNormal(MatchingScaleInformer currentMSI, int i, int j) {
+		/*create special object only at the position
+		 * of the recently 
+		 * swapped objects
+		 */
+		
+		board.fillCellAt(i, j, new Nothing());
+		Position p = new Position(i, j);
+		if (recentlySwapped(p)) {
+//			System.err.println("i am here");
+//			System.err.println("update is here:" +specialityCode);
+			
+			Lokum swapped = null;
+			if (p.isSamePlace(successfullSwapLog[0])) {
+				swapped = swappedObject1;
+			} else {
+				swapped = swappedObject2;
+			}
+			
+			int specialityCode = rules.getSpecialityCode(currentMSI);
+			if (rules.isSpecialCase(specialityCode)) {
+				score += rules.getRelevantCreationScore(specialityCode);
+				board.fillCellAt(i, j,
+						rules.getRelevantSpecialObject(swapped.getType(), specialityCode));
+			}
+		}
+
+	}
+	
+	
+	private void eraseForSpecial(MatchingScaleInformer currentMSI, int i, int j) {
+		Lokum sl = (Lokum)getCounterPartObjectOfMatrix(j, i);
+		String type = sl.getSpecialType();
+		if (type.equalsIgnoreCase("vertical striped")) {
+			clearColumn(i);
+		} else if (type.equalsIgnoreCase("horizontal striped")) {
+			clearRow(j);
+		} else if (type.equals("Wrapped")) {
+			clearArea(i, j);
+		} else if (type.equals("Color Bomb")) {
+			clearSameObjects(sl);
+		}
+		
+	}
+	
+	private void clearSameObjects(Matchable m) {
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				ChewyObject current = board.cellAt(i, j).getCurrentObject();
+				if (current instanceof Matchable) {
+					if(m.isMatched((Matchable)current))
+						board.fillCellAt(i, j, new Nothing());
 				}
 			}
 		}
 	}
 
-	private void eraseForNormal(MatchingScaleInformer currentMSI, int i, int j) {
-		if (rules.shouldErased(currentMSI)) {
-			board.fillCellAt(i, j, new Nothing());
-		}
-		/*create special object only at the position
-		 * of the recently 
-		 * swapped objects
-		 */
-		if (recentlySwapped(new Position(i, j))) {
-//			System.err.println("i am here");
-			int specialityCode = rules.getSpecialityCode(currentMSI);
-//			System.err.println("update is here:" +specialityCode);
-			
-			if (rules.isSpecialCase(specialityCode)) {
-				board.fillCellAt(i, j,
-						rules.getRelevantSpecialObject(specialityCode));
-			}
-		}
-		System.out.println();
-
-	}
-	
-	private void eraseForSpecial(MatchingScaleInformer currentMSI, int i, int j) {
+	private void clearArea(int x, int y) {
 		//to be implemented
-		
 	}
+
+	private void clearRow(int y) {
+		for (int x = 0; x < board.getWidth(); x++) {
+			board.fillCellAt(x, y, new Nothing());
+		}
+	}
+
+	private void clearColumn(int x) {
+		for (int y = 0; y < board.getHeight(); y++) {
+			board.fillCellAt(x, y, new Nothing());
+		}
+	}
+	//end of eraseForSpecial helper definitions
+	
 
 	private boolean recentlySwapped(Position p) {
 		// TODO Auto-generated method stub
@@ -296,7 +358,7 @@ public class GamePlay {
 	}
 
 	private Position getCounterPartPositionOfMatrixIndex(int i, int j) {
-		// TODO Auto-generated method stub
+		
 		return new Position(j, i);
 	}
 
@@ -314,10 +376,10 @@ public class GamePlay {
 	 * @return the int
 	 */
 	private int calculateScore(MatchingScaleInformer[][] msi) {
-		int score = 0;
+		int score = this.score;
 		for (int i = 0; i < msi.length; i++) {
-			for (int j = 0; j < msi[0].length; j++) {
-				score += rules.score(msi[i][j]);
+			for (int j = 0; j < msi[0].length; j++) {				
+				score += rules.getStandardScore(msi[i][j]);
 			}
 		}
 		return score;
@@ -391,9 +453,7 @@ public class GamePlay {
 	}
 	
 	public boolean isGameOver(){
-		if(movementsLeft <= 0) return true;
-		
-		return false;
+		return rules.gameEndedByMovements(movementsLeft);
 	}
 	
 	private void initiliazeNewBoard(){
@@ -486,3 +546,10 @@ public class GamePlay {
 	 * board.fillCellAt(i, j+k, new Nothing()); }
 	 */
 }
+
+/*
+ * 
+					if( swappedObject1  ) comboErase();
+					else if (swappedObject1.isSpecial() && !swappedObject2.isSpecial()) eraseForSpecial(currentMSI, i, j, true);
+					else if (!(swappedObject1 instanceof SpecialLokum) && swappedObject2 instanceof SpecialLokum)  eraseForSpecial(currentMSI, i, j, false);
+					*/

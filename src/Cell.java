@@ -57,6 +57,12 @@ public class Cell implements Clonable{
 
 	@Override
 	public String toString() {
+		if (currentObject instanceof Lokum) {
+			Lokum cur = (Lokum)currentObject;
+			if (cur.isSpecial()) {
+				return currentObject.getType() + "->"+  cur.getSpecialType();
+			}
+		}
 		return  currentObject.getType();
 	}
 	

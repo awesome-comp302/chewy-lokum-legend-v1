@@ -2,7 +2,14 @@ import java.util.Arrays;
 
 
 public class Lokum extends ChewyObject implements Matchable{
-	
+	public static final String specialTypes[] = {
+		"Color Bomb",
+		"Horizontal Striped",
+		"Regular",
+		"Vertical Striped", 
+		"Wrapped"
+		
+	};
 	
 	public static final String[] possibleTypes = {
 		
@@ -12,16 +19,30 @@ public class Lokum extends ChewyObject implements Matchable{
 		"white coconut"
 	};
 	
+	private String specialType;
 	/*
 	 * 
 	 */
-	public Lokum(String type) throws IllegalArgumentException{
+	public Lokum(String type, String specialType) throws IllegalArgumentException{
+		this.specialType = specialType;
 		
 		if(isValid(type)) {
 			this.type = type;
 		} else {
 			throw new IllegalArgumentException("Type: "+ type + " is unknown.");
 		}
+	}
+	
+	public Lokum(String type) {
+		this(type, "Regular");
+	}
+	
+	public void setSpecialType(String specialType) {
+		this.specialType = specialType;
+	}
+	
+	public String getSpecialType() {
+		return specialType;
 	}
 	
 	
@@ -39,5 +60,9 @@ public class Lokum extends ChewyObject implements Matchable{
 			}
 		} 
 		return false;
+	}
+	
+	public boolean isSpecial() {
+		return !specialType.equals("Regular");
 	}
 }

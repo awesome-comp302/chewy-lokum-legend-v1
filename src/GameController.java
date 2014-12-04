@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 
 public class GameController {
 	
@@ -20,8 +23,25 @@ public class GameController {
 	private static Level level;
 	private static GamePlay gp;
 	
+	private static final int selectonLength = 2;
 	
-
+	private int selectedXs[];
+	private int selectedYs[];
+	private int lastIndex;
+	
+	
+	private GamePlay game;
+	private JFrame currentView;
+	
+	public GameController() {
+		game = new GamePlay(level);
+		selectedXs = new int[selectonLength];
+		selectedYs = new int[selectonLength];
+		lastIndex = -1;
+	}
+	
+	
+	
 	public static void main(String[] args) throws InterruptedException {
 		
 		boardSizeX = 5; 
@@ -93,4 +113,6 @@ public class GameController {
 		activity= true;
 	}
 
+	
+	
 }

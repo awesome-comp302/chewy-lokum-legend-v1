@@ -11,7 +11,8 @@ public class RuleEngine {
 	// HCV_MATCH = HORIZONTAL_MATCH + CV_MATCH;
 
 	public static final int REGULAR = 7;
-	public static final int STRIPED = 4;
+	public static final int VSTRIPED = 4;
+	public static final int HSTRIPED = 8;
 	public static final int WRAPPED = 5;
 	public static final int COLOR_BOMB = 6;
 
@@ -138,8 +139,9 @@ public class RuleEngine {
 		int y_count = y1 + 1;
 		while (board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
-			//System.out.println("bottom" + "current: " + current.getType());
-			//System.out.println("candidate: " + ((Lokum) candidate).getType());
+			// System.out.println("bottom" + "current: " + current.getType());
+			// System.out.println("candidate: " + ((Lokum)
+			// candidate).getType());
 			if ((current instanceof Matchable)
 					&& (candidate.isMatched((Matchable) current))) {
 				y_count++;
@@ -157,8 +159,9 @@ public class RuleEngine {
 		int y_count = y1 - 1;
 		while (board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
-			//System.out.println("topcurrent: " + current.getType());
-			//System.out.println("candidate: " + ((Lokum) candidate).getType());
+			// System.out.println("topcurrent: " + current.getType());
+			// System.out.println("candidate: " + ((Lokum)
+			// candidate).getType());
 			if ((current instanceof Matchable)
 					&& (candidate.isMatched((Matchable) current))) {
 				y_count--;
@@ -189,19 +192,47 @@ public class RuleEngine {
 	 * Left and up scale should only stand for checking whether the cell was
 	 * matched previously check always occurs from left to right and up to down
 	 */
-	public int score(MatchingScaleInformer msi) {
+	public int getStandardScore(MatchingScaleInformer msi) {
+		if (msi.getLeftScale() > 0) {
+			return 0;
+		}
+		if (msi.getUpScale() > 0) {
+			return 0;
+		}
+		
 		int score = 0;
-		if (msi.getLeftScale() == 0) {
-
-			int rightScale = msi.getRightScale();
-			if (rightScale == MINIMUM_MATCH_REQUIRED - 1) {
-				score += rightScale * 20;
+		int right = msi.getRightScale();
+		
+		if (right >= MINIMUM_MATCH_REQUIRED) {
+			switch (right) {
+			case 3:
+				score += 60;
+				break;
+			case 4:
+				score += 240;
+				break;
+			case 5:
+				score += 600;
+				break;
+			default:
+				break;
 			}
 		}
-		if (msi.getUpScale() == 0) {
-			int downScale = msi.getDownScale();
-			if (downScale >= MINIMUM_MATCH_REQUIRED - 1) {
-				score += downScale * 20;
+
+		int down = msi.getDownScale();
+		if (down >= MINIMUM_MATCH_REQUIRED) {
+			switch (down) {
+			case 3:
+				score += 60;
+				break;
+			case 4:
+				score += 240;
+				break;
+			case 5:
+				score += 600;
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -209,32 +240,34 @@ public class RuleEngine {
 	}
 
 	public int getSpecialityCode(MatchingScaleInformer msi) {
-		
+
 		int hms = msi.horizontalMatchTotalScale();
 		int vms = msi.verticalMatchTotalScale();
-		
-		if (hms == 5 ||
-				vms == 5) {
+
+		if (hms == 5 || vms == 5) {
 			return COLOR_BOMB;
 		}
-		
+
 		if (hms == 3 && vms == 3) {
 			return WRAPPED;
 		}
-		
-		if (hms == 4
-				|| vms == 4) {
-			return STRIPED;
+
+		if (hms == 4) {
+			return HSTRIPED;
 		}
 		
+		if (vms == 4) {
+			return VSTRIPED;
+		}
+
 		return REGULAR;
-		
+
 	}
 
 	public boolean isSpecialCase(int specialityCode) {
 		// TODO Auto-generated method stub
-		return specialityCode == STRIPED || specialityCode == WRAPPED
-				|| specialityCode == COLOR_BOMB;
+		return specialityCode == VSTRIPED || specialityCode == HSTRIPED
+				|| specialityCode == WRAPPED || specialityCode == COLOR_BOMB;
 	}
 
 	/**
@@ -242,25 +275,141 @@ public class RuleEngine {
 	 * @param specialityCode
 	 * @return
 	 */
-	public SpecialLokum getRelevantSpecialObject(int specialityCode) {
-		SpecialLokum sl = null;
-		
+	public Lokum getRelevantSpecialObject(String initialType, int specialityCode) {
+		Lokum sl = null;
+
 		switch (specialityCode) {
-		case STRIPED:
-			sl = new SpecialLokum("Striped");
+		case VSTRIPED:
+			sl = new Lokum(initialType, "Vertical Striped");
 			break;
-			
+		case HSTRIPED:
+			sl = new Lokum(initialType, "Horizontal Stripe");
+			break;
 		case WRAPPED:
-			sl = new SpecialLokum("Wrapped");
+			sl = new Lokum(initialType, "Wrapped");
 			break;
-		
+
 		case COLOR_BOMB:
-			sl = new SpecialLokum("Color Bomb");
-		break;
+			sl = new Lokum(initialType, "Color Bomb");
+			break;
 		}
-		
+
 		return sl;
-		
+
 	}
 
+	public int getRelevantCreationScore(int specialityCode) {
+		// TODO Auto-generated method stub
+		switch (specialityCode) {
+		case VSTRIPED:
+			return 120;
+		case HSTRIPED:
+			return 120;
+		case WRAPPED:
+			return 200;
+		case COLOR_BOMB:
+			return 200;
+		default:
+			return 0;
+		}
+	}
+
+	public int getSpecialMoveScore(int x1, int y1, int x2, int y2, Board board,
+			Lokum l1, Lokum l2) {
+		
+		if (isWrapped(l1) && isWrapped(l2)) {
+			return 3600;
+		}
+		
+		if (isCB(l1) && isCB(l2)) {
+			int n = countAllLokumsInBoard(board);
+			return n * n * 100;
+		}
+		return 0;
+	}
+
+	private boolean isCB(Lokum l1) {
+		// TODO Auto-generated method stub
+		return l1.getSpecialType().equalsIgnoreCase("color bomb");
+	}
+
+	private boolean isWrapped(Lokum l1) {
+		// TODO Auto-generated method stub
+		return l1.getSpecialType().equalsIgnoreCase("wrapped");
+	}
+
+	//get the using score
+	public int getUsingScore(int x1, int y1, Board board, Lokum swappedObject) {
+		if (swappedObject.isSpecial()) {
+			String spec = swappedObject.getSpecialType();
+			if (spec.equals("Vertical Striped")) {
+				int n = countAllLokumsInCol(board, x1);
+				return n * 60;
+			}
+			if (spec.equals("Horizontal Striped")) {
+				int n = countAllLokumsInRow(board, y1);
+				return n * 60;
+			}
+
+			if (spec.equals("Wrapped")) {
+				return 1080;
+			}
+			
+			if (spec.equals("Color Bomb")) {
+				int n = countAllLokumsMatchedInTheBoard(board, swappedObject);
+				return n * n * 60;
+			}
+		}
+		
+		//if not special
+		return 0;
+	}
+
+	private int countAllLokumsInBoard(Board board) {
+		int n = 0;
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				if (board.cellAt(i, j).getCurrentObject() instanceof Lokum) {
+						n++;
+				}
+			}
+		}
+		return n;
+	}
+	
+	private int countAllLokumsMatchedInTheBoard(Board board, Lokum l) {
+		int n = 0;
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+				if (board.cellAt(i, j).getCurrentObject() instanceof Lokum) {
+					Lokum l2 = (Lokum)board.cellAt(i, j).getCurrentObject();
+					if (l.isMatched(l2)) {
+						n++;
+					}
+				}
+			}
+		}
+		return n;
+	}
+	
+	private int countAllLokumsInRow(Board board, int r) {
+		int n = 0;
+		for (int x = 0; x < board.getWidth(); x++) {
+			if (board.cellAt(x, r).getCurrentObject() instanceof Lokum) {
+				n++;
+			}
+		}
+		return n;
+	}
+	
+	
+	private int countAllLokumsInCol(Board board, int c) {
+		int n = 0;
+		for (int y = 0; y < board.getHeight(); y++) {
+			if (board.cellAt(c, y).getCurrentObject() instanceof Lokum) {
+				n++;
+			}
+		}
+		return n;
+	}
 }

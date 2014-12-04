@@ -3,11 +3,8 @@ import java.util.Arrays;
 
 public class SpecialLokum extends Lokum {
 
-	public static final String specialTypes[] = {
-		"Color Bomb",
-		"Striped", 
-		"Wrapped",
-	};
+	
+	
 	
 	public SpecialLokum(String type) throws IllegalArgumentException {
 		super(type);

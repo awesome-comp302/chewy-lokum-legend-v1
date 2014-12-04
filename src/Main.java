@@ -10,6 +10,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
+		//LoadGameWindow lw = new LoadGameWindow();
 		Board b = new Board(5, 3);
 		String A = "red rose";
 		String B = "green pistachio";
@@ -36,16 +37,16 @@ public class Main {
 		System.out.println(b);
 		
 		GamePlay gp = new GamePlay(new Level(90, 100, b, 1));
-		/* Testing Stripe
-		*/if(gp.swap(2, 1, 2, 0)) gp.updateBoard();
+		//Testing Stripe
+		if(gp.swap(2, 1, 2, 0)) gp.updateBoard();
+		System.out.println(b);
 		
-		
-		/*Testing Color Bomb
-		 * if (gp.swap(2, 1, 2, 0)) {
+		//Testing Color Bomb
+		  if (gp.swap(2, 1, 2, 0)) {
 			if (gp.swap(4, 1, 4, 0)) {
 				gp.updateBoard();
 			}
-		}*/
+		}
 		
 		
 		/*Testing Wrapped

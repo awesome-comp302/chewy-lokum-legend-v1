@@ -74,7 +74,7 @@ public class GameController {
 				System.out.println("y2: " +y2); 
 				activity = true;
 			} catch (Exception e) {
-				System.out.println("Gerizekalı!!\nSalak!!\nMal!!\nAHAHAHAHHAH\nAHAHAHA"); 
+				System.out.println("Gerizekali!!\nSalak!!\nMal!!\nAHAHAHAHHAH\nAHAHAHA"); 
 				Thread.sleep(100);
 			}
 			

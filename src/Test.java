@@ -5,7 +5,7 @@ public class Test {
 	private static Level testLevel;
 	private static GamePlay testGame;
 	
-	/*
+	
 
 	//Class Board, method Board, testing legal constructor values
 	@SuppressWarnings("unused")
@@ -300,8 +300,8 @@ public class Test {
 		GamePlay gp3 = new GamePlay(l3);
 		b3.fillCellAt(0, 0, new Lokum("brown hazelnut"));
 		b3.fillCellAt(1, 0, new Lokum("green pistachio"));
-		b3.fillCellAt(2, 0, new Lokum("red rose"));
-		b3.fillCellAt(2, 1, new Lokum("red rose"));
+		b3.fillCellAt(2, 0, new Obstacke("Standard Obstackle"));
+		b3.fillCellAt(2, 1, new SpecialLokum("Striped"));
 		b3.fillCellAt(1, 4, new Lokum("green pistachio"));
 		System.out.println(b3);
 		gp3.dropAll();
@@ -441,6 +441,6 @@ public class Test {
 		       "----------------\n";
 	}
 
-	*/
+	
 
 }

@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 
 public class GameController {
 	
@@ -20,7 +22,7 @@ public class GameController {
 	
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 		boardSizeX = 5; 
 		boardSizeY = 5;
@@ -36,26 +38,44 @@ public class GameController {
 		gp = new GamePlay(level);
 		
 		
-		gp.updateBoard();
+		gp.updateBoardGC();
 		System.out.println(board); // give the initial board to gui at here *TO BE IMPLEMENTED*
-		
+		Scanner scan = new Scanner(System.in);
 		while(true){
+
+			try {
+				x1 = scan.nextInt();
+				System.out.println("x1: " +x1); 
+				y1 = scan.nextInt();
+				System.out.println("y1: " +y1); 
+				x2 = scan.nextInt();
+				System.out.println("x2: " +x2); 
+				y2 = scan.nextInt();
+				System.out.println("y2: " +y2); 
+				activity = true;
+			} catch (Exception e) {
+				System.out.println("Gerizekalı!!\nSalak!!\nMal!!\nAHAHAHAHHAH\nAHAHAHA"); 
+				Thread.sleep(100);
+			}
+			
+			
 			
 			if(activity){ //GUI will set activity to true, if any interaction is done *TO BE IMPLEMENTED*
 				
 				if(gp.swap(x1,y1,x2,y2)){//GUI will set x1,y1,x2,y2 with the interaction *TO BE IMPLEMENTED*
-					gp.updateBoard();
+					gp.updateBoardGC();
 					System.out.println(board); // GUI will be updated *TO BE IMPLEMENTED*
 					
 				}else{
+					System.out.println(board);
+					System.out.println("move is illegal");
 					//notifies the GUI about the swap is illegal, and GUI throws a warning to player
 					//*TO BE IMPLEMENTED*
 				}
 				activity = false;
 			}
 			
-			//if(gp.isGameOver()) break; *TO BE IMPLEMENTED*
-			break;
+			if(gp.isGameOver()) break;
 
 			
 		}

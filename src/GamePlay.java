@@ -22,6 +22,8 @@ public class GamePlay {
 	private RuleEngine rules;
 
 	private Position successfullSwapLog[];
+	
+	private boolean swapOccured;
 
 	/**
 	 * Instantiates a new game play.
@@ -117,6 +119,7 @@ public class GamePlay {
 		board.fillCellAt(x1, y1, cell2.getCurrentObject());
 		board.fillCellAt(x2, y2, temp);
 		movementsLeft--;
+		swapOccured = true;
 		return true;
 	}
 
@@ -180,6 +183,42 @@ public class GamePlay {
 
 
 	}
+	
+	public void updateBoardGC() {
+		
+		while(true){
+			while (isThereNothing() || swapOccured) {
+				if(swapOccured == true) swapOccured = false;
+				
+				// Checking if the board is playable
+				fillAllNothingsRandomly();
+			
+				// generate scaling matrix
+				MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
+
+				// erase all matched cells
+				eraseAllMatches(scaleMatrix);
+
+				// update the score;
+				score = calculateScore(scaleMatrix);
+
+				// drop objects if necessary
+				dropAll();
+			
+			}
+			
+			if(isThereAvailableMove()) break;
+			else {
+				
+				System.out.println("There is no available move. New board is initilized.");
+				initiliazeNewBoard();
+			}
+		}
+		
+		
+
+
+	}
 
 	/**
 	 * Generate scale matrix.
@@ -230,7 +269,7 @@ public class GamePlay {
 		 * swapped objects
 		 */
 		if (recentlySwapped(new Position(i, j))) {
-			System.err.println("i am here");
+//			System.err.println("i am here");
 			int specialityCode = rules.getSpecialityCode(currentMSI);
 //			System.err.println("update is here:" +specialityCode);
 			
@@ -284,7 +323,7 @@ public class GamePlay {
 		return score;
 	}
 
-	private void dropAll() {
+	public void dropAll() {
 		for (int i = board.getWidth() - 1; i > -1; i--) {
 			for (int j = board.getHeight() - 1; j > -1; j--) {
 				if (board.cellAt(i, j).getCurrentObject().getType()
@@ -297,10 +336,9 @@ public class GamePlay {
 					}
 					if (!board.cellAt(i, temp).getCurrentObject().getType()
 							.equals("Empty")) {
-						String type = board.cellAt(i, temp).getCurrentObject()
-								.getType();
+						ChewyObject co = board.cellAt(i, temp).getCurrentObject();
 						board.fillCellAt(i, temp, new Nothing());
-						board.fillCellAt(i, j, new Lokum(type));
+						board.fillCellAt(i, j, co);
 						temp = j;
 					}
 				}
@@ -309,7 +347,7 @@ public class GamePlay {
 
 	}
 
-	private boolean isThereAvailableMove() {
+	public boolean isThereAvailableMove() {
 		for (int i = 0; i < board.getWidth() - 1; i++) {
 			for (int j = 0; j < board.getHeight() - 1; j++) {
 				if (rules.isSwappable(board, i, j, i + 1, j))
@@ -324,7 +362,7 @@ public class GamePlay {
 		return false;
 	}
 
-	private boolean isThereNothing() {
+	public boolean isThereNothing() {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
 				if (board.cellAt(i, j).getCurrentObject().getType()
@@ -336,7 +374,7 @@ public class GamePlay {
 		return false;
 	}
 
-	private void fillAllNothingsRandomly() {
+	public void fillAllNothingsRandomly() {
 		String str[] = Lokum.possibleTypes;
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
@@ -350,6 +388,26 @@ public class GamePlay {
 			}
 
 		}
+	}
+	
+	public boolean isGameOver(){
+		if(movementsLeft <= 0) return true;
+		
+		return false;
+	}
+	
+	private void initiliazeNewBoard(){
+		String str[] = Lokum.possibleTypes;
+		for (int i = 0; i < board.getWidth(); i++) {
+			for (int j = 0; j < board.getHeight(); j++) {
+					Lokum currentLokum = new Lokum(
+							str[new Random().nextInt(str.length)]);
+					board.fillCellAt(i, j, currentLokum);
+			}
+
+		}
+		
+		
 	}
 
 	/*

@@ -302,6 +302,9 @@ public class GamePlay implements Serializable{
 				MatchingScaleInformer currentMSI = scaleMatrix[j][i];
 				ChewyObject current = board.cellAt(i, j).getCurrentObject();
 				if (rules.shouldErased(currentMSI)) {
+					if (current instanceof Nothing) {
+						continue;
+					}
 					Lokum lokum = (Lokum)current;
 					if (lokum.isSpecial()) {
 						eraseForSpecial(currentMSI, i, j);

@@ -15,19 +15,12 @@ public class MainGameWindowController {
 		this.view = view;
 	}
 
-	public void startButtonClicked() {
-		view.dispose();
-	}
-	
-	public void loadButtonClicked() {
-		view.dispose();
-	}
-	
-	public void configButtonClicked() {
-		view.dispose();
-	}
-	
-	public void exitButtonClicked() {
+	public void saveExitButtonClicked() {
+		System.out.println("Start save");
+		WriteXMLFile.getInstance().saveGame(game.gp);
+		System.out.println("Start2 save");
+		WriteXMLFile.getInstance().write();
+		System.out.println("Start1 save");
 		System.exit(0);
 	}
 	
@@ -63,8 +56,4 @@ public class MainGameWindowController {
 		view.updateBoard(gp);
 	}
 
-	public void saveButtonClicked() {
-		// TODO Auto-generated method stub
-		System.exit(0);
-	}
 }

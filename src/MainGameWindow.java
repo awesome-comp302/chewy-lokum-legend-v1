@@ -19,8 +19,7 @@ public class MainGameWindow extends JFrame {
 	private JLabel llgoal;
 	private JLabel llmoves;
 	private JLabel llscore;
-	private JButton saveButton;
-	private JButton exitButton;
+	private JButton saveExitButton;
 	private JPanel 	boardHolder;
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
@@ -101,15 +100,15 @@ public class MainGameWindow extends JFrame {
 		llscore = new JLabel(String.valueOf(gap.getScore()));
 		buttonHolder.add(llscore);
 		
-		exitButton = new JButton("Exit");
+		saveExitButton = new JButton("Save and Exit");
 		c.gridheight = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 3;
 		c.gridy = 0;
-		buttonHolder.add(exitButton);
-		exitButton.addActionListener(interact);	
+		buttonHolder.add(saveExitButton);
+		saveExitButton.addActionListener(interact);	
 		
 		boardHolder = new JPanel();
 		boardHolder.setBackground(Color.blue);
@@ -145,10 +144,8 @@ public class MainGameWindow extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object srcButton =  e.getSource();
-			if (srcButton == saveButton) {
-				controller.saveButtonClicked();
-			} else if (srcButton == exitButton) {
-				controller.exitButtonClicked();
+			if (srcButton == saveExitButton) {
+				controller.saveExitButtonClicked();
 			} else if (srcButton.getClass() == CellButton.class){
 				System.out.println("Entering cellClicked");
 				controller.cellClicked((CellButton) srcButton);

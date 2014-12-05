@@ -299,7 +299,14 @@ public class GamePlay implements Serializable{
 	private void eraseAllMatches(MatchingScaleInformer[][] scaleMatrix) {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				MatchingScaleInformer currentMSI = scaleMatrix[j][i];
+				if (specialExchangeOccured()) {
+					eraseForSpecial(scaleMatrix[j][i], i, j);
+				} else {
+					if (rules.shouldErased(scaleMatrix[j][i])) {
+						eraseForNormal(scaleMatrix[j][i], i, j);
+					}
+				}
+				/*MatchingScaleInformer currentMSI = scaleMatrix[j][i];
 				ChewyObject current = board.cellAt(i, j).getCurrentObject();
 				if (rules.shouldErased(currentMSI)) {
 					Lokum lokum = (Lokum)current;
@@ -308,7 +315,7 @@ public class GamePlay implements Serializable{
 					} else {
 						eraseForNormal(currentMSI, i, j);
 					}
-				}
+				}*/
 				
 			}
 		}
@@ -342,6 +349,14 @@ public class GamePlay implements Serializable{
 			}
 		}
 
+	}
+	
+	private boolean specialExchangeOccured() {
+		if (swapOccured) {
+			return swappedObject1.isSpecial() && swappedObject2.isSpecial();
+		}
+		return false;
+		
 	}
 	
 	
@@ -433,10 +448,14 @@ public class GamePlay implements Serializable{
 	 * @return the int
 	 */
 	private int calculateScore(MatchingScaleInformer[][] msi) {
+		int eraseCount = 0;
 		
 		for (int i = 0; i < msi.length; i++) {
-			for (int j = 0; j < msi[0].length; j++) {				
-				score += rules.getStandardScore(msi[i][j]);
+			for (int j = 0; j < msi[0].length; j++) {
+				if (rules.shouldErased(msi[i][j])) {
+					eraseCount++;
+				}
+				score += rules.getStandardScore(eraseCount, msi[i][j]);
 			}
 		}
 		System.out.println(score);

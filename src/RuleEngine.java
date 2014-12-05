@@ -75,6 +75,15 @@ public class RuleEngine {
 			return false;
 		}
 
+		ChewyObject o1 = board.cellAt(x1, y1).getCurrentObject();
+		ChewyObject o2 = board.cellAt(x2, y2).getCurrentObject();
+		if (o1 instanceof Lokum
+				&& o2 instanceof Lokum) {
+			if (((Lokum) o1).isSpecial() && ((Lokum)o2).isSpecial()){
+				return true;
+			}
+		}
+		
 		MatchingScaleInformer msi1 = getMatchingScaleInformer(board, x1, y1,
 				board.cellAt(x2, y2).getCurrentObject());
 		MatchingScaleInformer msi2 = getMatchingScaleInformer(board, x2, y2,
@@ -194,7 +203,7 @@ public class RuleEngine {
 	 * Left and up scale should only stand for checking whether the cell was
 	 * matched previously check always occurs from left to right and up to down
 	 */
-	public int getStandardScore(MatchingScaleInformer msi) {
+	public int getStandardScore(int eraseCount, MatchingScaleInformer msi) {
 		if (msi.getLeftScale() > 0) {
 			return 0;
 		}
@@ -208,13 +217,13 @@ public class RuleEngine {
 		if (right >= MINIMUM_MATCH_REQUIRED-1) {
 			switch (right) {
 			case 2:
-				score += 60;
+				score += eraseCount * 60;
 				break;
 			case 3:
-				score += 240;
+				score += eraseCount * 240;
 				break;
 			case 4:
-				score += 600;
+				score += eraseCount * 600;
 				break;
 			default:
 				break;
@@ -226,20 +235,20 @@ public class RuleEngine {
 		if (down >= MINIMUM_MATCH_REQUIRED-1) {
 			switch (down) {
 			case 2:
-				score += 60;
+				score += eraseCount * 60;
 				break;
 			case 3:
-				score += 240;
+				score += eraseCount * 240;
 				break;
 			case 4:
-				score += 600;
+				score += eraseCount * 600;
 				break;
 			default:
 				break;
 			}
-		
+			
 		}
-		System.out.println(score);
+		//System.out.println(score);
 
 		return score;
 	}

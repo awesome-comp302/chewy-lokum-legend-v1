@@ -13,7 +13,7 @@ public class GamePlay implements Serializable{
 	/** The board. */
 	public Board board;
 
-	/** The level. */
+	/** The level played. */
 	private Level level;
 
 	/** The movements left. */
@@ -26,6 +26,8 @@ public class GamePlay implements Serializable{
 	private Lokum swappedObject1, swappedObject2;
 	
 	private boolean swapOccured;
+	
+	private Player suha;
 
 	/**
 	 * Instantiates a new game play.
@@ -36,14 +38,18 @@ public class GamePlay implements Serializable{
 	 * @modifies:
 	 * @ensures:
 	 */
-	public GamePlay(Level level) {
+	public GamePlay(Level level, Player player) {
 		rules = RuleEngine.getInstance();
 		this.level = level;
 		score = 0;
 		movementsLeft = level.getPossibleMovements();
 		board = level.getBoard();
 		successfullSwapLog = new Position[2];
-		// TODO Auto-generated constructor stub
+		suha =player;
+	}
+	
+	public GamePlay(Level level) {
+		this(level, new Player("Süha"));
 	}
 
 	/**
@@ -332,7 +338,23 @@ public class GamePlay implements Serializable{
 	}
 
 	private void clearArea(int x, int y) {
-		//to be implemented
+		for (int i = -rules.getSquareAreaSizeForErasing() + 1; i < rules.getSquareAreaSizeForErasing(); i++) {
+			
+			int incy = y + i;
+			int incx = x + i;
+			
+			if (board.inBoard(incx, y)) {
+				board.fillCellAt(incx, y, new Nothing());
+			}
+			
+			if (board.inBoard(x, incy)) {
+				board.fillCellAt(x, incy, new Nothing());
+			}
+			
+			if (board.inBoard(incx, incy)) {
+				board.fillCellAt(x+i, y+i, new Nothing());
+			}	
+		}	
 	}
 
 	private void clearRow(int y) {
@@ -524,6 +546,10 @@ public class GamePlay implements Serializable{
 		return "\nGAME INFO \n" + "Game Score: " + score + "\n" + "Level ID: "
 				+ level.getLevelId() + "\n" + "Movements Left: "
 				+ movementsLeft + "\n" + "is board ok? " + board.repOk();
+	}
+
+	public Player getPlayer() {
+		return suha;
 	}
 
 	/*

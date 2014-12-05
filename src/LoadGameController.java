@@ -1,10 +1,9 @@
-import javax.swing.JFrame;
 
 
 public class LoadGameController {
-	private JFrame view;
+	private LoadGameWindow view;
 	
-	public LoadGameController(JFrame view) {
+	public LoadGameController(LoadGameWindow view) {
 		this.view = view;
 	}
 

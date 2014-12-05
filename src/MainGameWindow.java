@@ -35,13 +35,13 @@ public class MainGameWindow extends JFrame {
 		controller = new MainGameWindowController(this);
 		
 		setResizable(false);
-		setLocationRelativeTo(null);
+		
 		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(2);
 		
 		getContentPane().setLayout(new GridBagLayout());
 		setSize(1200, 800);
-		
+		setLocationRelativeTo(null);
 		interact = new Interact();
 		GridBagConstraints c = new GridBagConstraints();
 		

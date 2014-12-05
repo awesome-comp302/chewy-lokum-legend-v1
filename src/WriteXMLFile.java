@@ -14,23 +14,34 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
  
 public class WriteXMLFile {
-	private static String pID;
-	private static String pName;
+	private static WriteXMLFile instance;
+	
+	private static Player player_;
 	private static Board board;
 	private static Level level;
 	private static GamePlay gp;
 	private static Element lokum[][];
 	
-	
- 
-	public static void main(String argv[]) {
-		pID = "1";
-		pName = "Berk";
-		board = new Board(5, 5);
-		level = new Level(5, 10,board, 1);
-		gp = new GamePlay(level);
+	private WriteXMLFile(){
 		
-		gp.updateBoardGC();
+	}
+	
+	public static WriteXMLFile getInstance(){
+		if (instance == null) {
+			instance = new WriteXMLFile();
+		}
+		return instance;
+	}
+	
+	public void saveGame(GamePlay gc){
+		gp = gc;
+		player_ = gc.getPlayer();
+		level = gp.getLevel();
+		board = level.getBoard();
+	}
+ 
+	public void write() {
+
 		
 		lokum = new Element [board.getWidth()][board.getHeight()];
  
@@ -57,16 +68,17 @@ public class WriteXMLFile {
 		//player.setAttributeNode(attr);
  
 		// shorten way
-		//player.setAttribute("id", ID);
+		Board.setAttribute("width", ""+board.getWidth());
+		Board.setAttribute("height", ""+board.getHeight());
 		
 		// lastname elements
 		Element id = doc.createElement("id");
-		id.appendChild(doc.createTextNode(pID));
+		id.appendChild(doc.createTextNode(""+player_.getID()));
 		player.appendChild(id);
  
 		// firstname elements
 		Element name = doc.createElement("name");
-		name.appendChild(doc.createTextNode(pName));
+		name.appendChild(doc.createTextNode(player_.getName()));
 		player.appendChild(name);
  
 		// lastname elements
@@ -152,6 +164,7 @@ public class WriteXMLFile {
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
 		StreamResult result = new StreamResult(new File("file.xml"));
+		
  
 		// Output to console for testing
 		// StreamResult result = new StreamResult(System.out);

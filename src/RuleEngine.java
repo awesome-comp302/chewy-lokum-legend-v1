@@ -1,3 +1,4 @@
+
 public class RuleEngine {
 
 	private static RuleEngine instance;
@@ -17,7 +18,8 @@ public class RuleEngine {
 	public static final int COLOR_BOMB = 6;
 
 	public static final int MINIMUM_MATCH_REQUIRED = 3;
-
+	
+	
 	private RuleEngine() {
 
 	}
@@ -317,24 +319,45 @@ public class RuleEngine {
 	public int getSpecialMoveScore(int x1, int y1, int x2, int y2, Board board,
 			Lokum l1, Lokum l2) {
 		
+		if (isStriped(l1) && isStriped(l2)) {
+			return 2 * getRelevantCreationScore(VSTRIPED);
+		}
+		
+		if (isStriped(l1) && isWrapped(l2) || isWrapped(l1) && isStriped(l2)) {
+			return 3 * getRelevantCreationScore(VSTRIPED);
+		}
+		
+		if (isStriped(l1) && isCB(l2) || isCB(l1) && isStriped(l2)) {
+			int n = isStriped(l1) ? countAllLokumsInRow(board, y1) 
+					: countAllLokumsInCol(board, y2);
+			return n * getRelevantCreationScore(HSTRIPED);
+		}
+		
 		if (isWrapped(l1) && isWrapped(l2)) {
 			return 3600;
+		}
+		
+		if (isWrapped(l1) && isCB(l2) || isCB(l1) && isWrapped(l2)) {
+			return 2 * getRelevantCreationScore(COLOR_BOMB);
 		}
 		
 		if (isCB(l1) && isCB(l2)) {
 			int n = countAllLokumsInBoard(board);
 			return n * n * 100;
 		}
+		
 		return 0;
 	}
 
+	private boolean isStriped(Lokum l1) {
+		return l1.getSpecialType().equalsIgnoreCase("striped");
+	}
+
 	private boolean isCB(Lokum l1) {
-		// TODO Auto-generated method stub
 		return l1.getSpecialType().equalsIgnoreCase("color bomb");
 	}
 
 	private boolean isWrapped(Lokum l1) {
-		// TODO Auto-generated method stub
 		return l1.getSpecialType().equalsIgnoreCase("wrapped");
 	}
 
@@ -411,5 +434,9 @@ public class RuleEngine {
 			}
 		}
 		return n;
+	}
+	
+	public int getSquareAreaSizeForErasing() {
+		return 3;
 	}
 }

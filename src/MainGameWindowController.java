@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 
 public class MainGameWindowController {
 	private MainGameWindow view;
-	private Board board;
 	public GameController game;
 	
 	private CellButton click1;
@@ -35,13 +34,14 @@ public class MainGameWindowController {
 	public void cellClicked(CellButton cb){
 		if(click1 != null && (cb.coordX != click1.coordX || cb.coordY != click1.coordY)){
 			click2 = cb;
-			if(click1 == null || click2 == null || game == null){
-				System.out.println("ouch");
-			}
+			if(click1 == null || click2 == null || game == null){ System.out.println("ouch"); }
 			sendSwap();
+		} else if(click1 != null && cb.coordX == click1.coordX && cb.coordY == click1.coordY) {
+			click1.setBorder(BorderFactory.createEmptyBorder());
+		} else {
+			click1 = cb;
+			cb.setBorder(BorderFactory.createLineBorder(Color.red));
 		}
-		click1 = cb;
-		cb.setBorder(BorderFactory.createLineBorder(Color.red));
 	}
 	
 	public void sendSwap(){
@@ -50,7 +50,7 @@ public class MainGameWindowController {
 		if(game.setSwapCoordinates(click1.coordX, click1.coordY, click2.coordX, click2.coordY)){
 			if(game == null) System.out.println("game null");
 			if(game.gp == null) System.out.println("gamegame null");
-			updateBoard(game.gp.board);
+			updateBoard(game.gp);
 		} else {
 			
 		}
@@ -58,7 +58,12 @@ public class MainGameWindowController {
 		click2 = null;
 	}
 	
-	public void updateBoard(Board b){
-		view.updateBoard(b);
+	public void updateBoard(GamePlay gp){
+		view.updateBoard(gp);
+	}
+
+	public void saveButtonClicked() {
+		// TODO Auto-generated method stub
+		System.exit(0);
 	}
 }

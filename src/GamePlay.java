@@ -130,7 +130,7 @@ public class GamePlay implements Serializable{
 		score += rules.getSpecialMoveScore(x1, y1, x2, y2, board, swappedObject1, swappedObject2);
 		score += rules.getUsingScore(x1, y1, board, swappedObject1);
 		score += rules.getUsingScore(x2, y2, board, swappedObject2);
-		
+		System.out.println(score);
 		ChewyObject temp = cell1.getCurrentObject();
 		board.fillCellAt(x1, y1, cell2.getCurrentObject());
 		board.fillCellAt(x2, y2, temp);
@@ -216,7 +216,7 @@ public class GamePlay implements Serializable{
 				eraseAllMatches(scaleMatrix);
 
 				// update the score;
-				score = calculateScore(scaleMatrix);
+				calculateScore(scaleMatrix);
 
 				// drop objects if necessary
 				dropAll();
@@ -398,12 +398,13 @@ public class GamePlay implements Serializable{
 	 * @return the int
 	 */
 	private int calculateScore(MatchingScaleInformer[][] msi) {
-		int score = this.score;
+		
 		for (int i = 0; i < msi.length; i++) {
 			for (int j = 0; j < msi[0].length; j++) {				
 				score += rules.getStandardScore(msi[i][j]);
 			}
 		}
+		System.out.println(score);
 		return score;
 	}
 

@@ -98,12 +98,12 @@ public class ReadXMLFile {
 		String sType = getTextValue((Element) lokum.item(i), "sType");
 		int x = Integer.parseInt(getTextValue((Element) lokum.item(i), "xPos"));
 		int y = Integer.parseInt(getTextValue((Element) lokum.item(i), "yPos"));
-		System.out.println("***");
+		/*System.out.println("***");
 		System.out.println("type : " + type);
 		System.out.println("sType : " + sType);
 		System.out.println("xPos : " + x);
 		System.out.println("yPos : " + y);
-		
+		*/
 		
 		boardState.fillCellAt(x, y, new Lokum(type, sType));
 	}

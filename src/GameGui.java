@@ -21,13 +21,13 @@ public class GameGui extends JFrame {
 		gc.level = new Level(passingScore, remainingMove,b, levelID);
 		gc.gp = new GamePlay(gc.level);
 		gc.board = gc.gp.board;
-		gc.mgwc = new MainGameWindow(gc.board).getController();
+		gc.mgwc = new MainGameWindow(gc.gp).getController();
 		
 		gc.gp.updateBoardGC();
 		
 		gc.mgwc.game = gc;
 		//System.out.println("INIT mgwc.game");
-		gc.mgwc.updateBoard(gc.board);
+		gc.mgwc.updateBoard(gc.gp);
 		
 		
 		

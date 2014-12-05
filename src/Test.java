@@ -484,7 +484,7 @@ public class Test {
 		System.out.println(testSplitter("XML Write Test"));
 		//xmlWriteTest();
 		
-		System.out.println(testSplitter("XML Write Test"));
+		System.out.println(testSplitter("XML Read Test"));
 		xmlReadTest();
 
 	}

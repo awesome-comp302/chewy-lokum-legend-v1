@@ -4,26 +4,36 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.peer.ButtonPeer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
 public class MainGameWindow extends JFrame {
-	private JButton startGameButton;
-	private JButton loadGameButton;
-	private JButton configButton;
+	private JLabel lgoal;
+	private JLabel lmoves;
+	private JLabel lscore;
+	private JLabel llgoal;
+	private JLabel llmoves;
+	private JLabel llscore;
+	private JButton saveButton;
 	private JButton exitButton;
 	private JPanel 	boardHolder;
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
+	private JPanel  detailPanel;
 	private Interact interact;
 	
-	Board b;
+	private GamePlay gp;
+	private int score;
+	private int remMove;
+	private int goal;
 	private MainGameWindowController controller;
 	
-	public MainGameWindow(Board initBoard){
+	public MainGameWindow(GamePlay gap){
 		//Score
 		//Target
 		//Moves
@@ -54,35 +64,42 @@ public class MainGameWindow extends JFrame {
 		c.weightx = 1;
 		add(buttonHolder,c);
 		
-		startGameButton = new JButton("Start");
+		lgoal = new JLabel("Goal");
 		c.gridheight = 1;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 0;
 		c.gridy = 0;
-		buttonHolder.add(startGameButton);
-		startGameButton.addActionListener(interact);
+		buttonHolder.add(lgoal);
+
+		llgoal = new JLabel(String.valueOf(gap.getLevel().getPassingScore()));
+		buttonHolder.add(llgoal);
 		
-		loadGameButton = new JButton("Load");
+		
+		lmoves = new JLabel("Moves");
 		c.gridheight = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
 		c.gridy = 0;
-		buttonHolder.add(loadGameButton);
-		loadGameButton.addActionListener(interact);
+		buttonHolder.add(lmoves);
+
+		llmoves = new JLabel(String.valueOf(gap.getMovementsLeft()));
+		buttonHolder.add(llmoves);
 		
-		configButton = new JButton("Config");
+		lscore = new JLabel("Score");
 		c.gridheight = 1;
 		c.weightx = 0.5;
 		c.anchor = GridBagConstraints.PAGE_START;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 2;
 		c.gridy = 0;
-		buttonHolder.add(configButton);
-		configButton.addActionListener(interact);
+		buttonHolder.add(lscore);
+
+		llscore = new JLabel(String.valueOf(gap.getScore()));
+		buttonHolder.add(llscore);
 		
 		exitButton = new JButton("Exit");
 		c.gridheight = 1;
@@ -106,7 +123,7 @@ public class MainGameWindow extends JFrame {
 		add(boardHolder,c);
 		
 		boardPanel = new JPanel();
-		updateBoard(initBoard);
+		updateBoard(gap);
 		c.anchor = GridBagConstraints.LAST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
@@ -115,6 +132,9 @@ public class MainGameWindow extends JFrame {
 		c.weighty = 0.9;
 		boardHolder.add(boardPanel,c);
 		boardHolder.setVisible(true);
+		
+		detailPanel = new JPanel();
+		
 		
 		//pack();
 		setVisible(true);
@@ -125,12 +145,8 @@ public class MainGameWindow extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object srcButton =  e.getSource();
-			if (srcButton == startGameButton) {
-				controller.startButtonClicked();
-			} else if (srcButton == loadGameButton) {
-				controller.loadButtonClicked();
-			} else if (srcButton == configButton) {
-				controller.configButtonClicked();
+			if (srcButton == saveButton) {
+				controller.saveButtonClicked();
 			} else if (srcButton == exitButton) {
 				controller.exitButtonClicked();
 			} else if (srcButton.getClass() == CellButton.class){
@@ -145,13 +161,20 @@ public class MainGameWindow extends JFrame {
 		return controller;
 	}
 	
-	public void updateBoard(Board nb){
-		b = nb;
+	public void updateBoard(GamePlay gp){
+		this.gp = gp;
+		Board b = gp.getLevel().getBoard();
 		
 		boardPanel.removeAll();
 		b.getHeight();
 		b.getWidth();
 		boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
+		
+		score = gp.getScore();
+		remMove = gp.getMovementsLeft();
+		
+		llscore.setText(String.valueOf(score));
+		llmoves.setText(String.valueOf(remMove));
 		
 		for(int i = 0; i < b.getWidth(); i++){
 			for(int j = 0; j < b.getHeight(); j++){
@@ -163,5 +186,6 @@ public class MainGameWindow extends JFrame {
 		}
 		
 		boardPanel.updateUI();
+		buttonHolder.updateUI();
 	}
 }

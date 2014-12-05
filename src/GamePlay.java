@@ -236,6 +236,40 @@ public class GamePlay implements Serializable{
 
 
 	}
+	
+	public void initBoard() {
+	
+		while(true){
+			while (isThereNothing() || swapOccured) {
+				if(swapOccured == true) swapOccured = false;
+				
+				// Checking if the board is playable
+				fillAllNothingsRandomly();
+			
+				// generate scaling matrix
+				MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
+
+				// erase all matched cells
+				eraseAllMatches(scaleMatrix);
+
+				// drop objects if necessary
+				dropAll();
+			
+				
+			}
+			
+			if(isThereAvailableMove()) break;
+			else {
+				
+				System.out.println("There is no available move. New board is initilized.");
+				initiliazeNewBoard();
+			}
+		}
+		
+		
+
+
+	}
 
 	/**
 	 * Generate scale matrix.

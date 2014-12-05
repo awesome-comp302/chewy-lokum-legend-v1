@@ -9,7 +9,7 @@ public class GameGui extends JFrame {
 		int boardSizeX = 5; 
 		int boardSizeY = 5;
 		
-		int passingScore = 50;
+		int passingScore = 5000;
 		int remainingMove = 2;
 		int levelID = 1;
 		

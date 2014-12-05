@@ -205,38 +205,41 @@ public class RuleEngine {
 		int score = 0;
 		int right = msi.getRightScale();
 		
-		if (right >= MINIMUM_MATCH_REQUIRED) {
+		if (right >= MINIMUM_MATCH_REQUIRED-1) {
 			switch (right) {
-			case 3:
+			case 2:
 				score += 60;
 				break;
-			case 4:
+			case 3:
 				score += 240;
 				break;
-			case 5:
+			case 4:
 				score += 600;
 				break;
 			default:
 				break;
 			}
 		}
+		
 
 		int down = msi.getDownScale();
-		if (down >= MINIMUM_MATCH_REQUIRED) {
+		if (down >= MINIMUM_MATCH_REQUIRED-1) {
 			switch (down) {
-			case 3:
+			case 2:
 				score += 60;
 				break;
-			case 4:
+			case 3:
 				score += 240;
 				break;
-			case 5:
+			case 4:
 				score += 600;
 				break;
 			default:
 				break;
 			}
+		
 		}
+		System.out.println(score);
 
 		return score;
 	}

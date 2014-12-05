@@ -412,7 +412,7 @@ public class Test {
 		reader.read();
 		GamePlay gp = reader.loadGame();
 		
-		System.out.println(gp);
+		System.out.println(gp.getLevel().getBoard());
 		
 	}
 	
@@ -486,7 +486,8 @@ public class Test {
 		
 		System.out.println(testSplitter("XML Read Test"));
 		xmlReadTest();
-
+		
+		LoadGameWindow lg = new LoadGameWindow(); 
 	}
 	
 

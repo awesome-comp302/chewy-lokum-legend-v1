@@ -186,8 +186,8 @@ public class MainGameWindow extends JFrame {
 			
 			for(int i = 0; i < b.getWidth(); i++){
 				for(int j = 0; j < b.getHeight(); j++){
-					Cell curr = b.cellAt(i, j);
-					CellButton cb = new CellButton(curr,i,j);
+					Cell curr = b.cellAt(j, i);
+					CellButton cb = new CellButton(curr,j,i);
 					boardPanel.add(cb);
 					cb.addActionListener(interact);
 				}

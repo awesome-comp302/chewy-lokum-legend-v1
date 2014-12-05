@@ -205,22 +205,23 @@ public class GamePlay implements Serializable{
 		while(true){
 			while (isThereNothing() || swapOccured) {
 				if(swapOccured == true) swapOccured = false;
+				System.out.println(board);
 				
 				// Checking if the board is playable
 				fillAllNothingsRandomly();
-			
+				System.out.println(board);
 				// generate scaling matrix
 				MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
-
+				System.out.println(board);
 				// erase all matched cells
 				eraseAllMatches(scaleMatrix);
-
+				System.out.println(board);
 				// update the score;
 				calculateScore(scaleMatrix);
-
+				System.out.println(board);
 				// drop objects if necessary
 				dropAll();
-			
+				System.out.println(board);
 				
 			}
 			
@@ -228,7 +229,7 @@ public class GamePlay implements Serializable{
 			else {
 				
 				System.out.println("There is no available move. New board is initilized.");
-				initiliazeNewBoard();
+				//initiliazeNewBoard();
 			}
 		}
 		

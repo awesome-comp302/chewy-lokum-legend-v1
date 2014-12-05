@@ -10,7 +10,7 @@ public class GameGui extends JFrame {
 		int boardSizeY = 5;
 		
 		int passingScore = 50;
-		int remainingMove = 10;
+		int remainingMove = 2;
 		int levelID = 1;
 		
 		Board b = new Board(boardSizeX, boardSizeY);

@@ -38,6 +38,7 @@ public class MainGameWindowController {
 			sendSwap();
 		} else if(click1 != null && cb.coordX == click1.coordX && cb.coordY == click1.coordY) {
 			click1.setBorder(BorderFactory.createEmptyBorder());
+			click1 = null;
 		} else {
 			click1 = cb;
 			cb.setBorder(BorderFactory.createLineBorder(Color.red));

@@ -162,29 +162,37 @@ public class MainGameWindow extends JFrame {
 	}
 	
 	public void updateBoard(GamePlay gp){
-		this.gp = gp;
-		Board b = gp.getLevel().getBoard();
-		
-		boardPanel.removeAll();
-		b.getHeight();
-		b.getWidth();
-		boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
-		
 		score = gp.getScore();
 		remMove = gp.getMovementsLeft();
-		
+
+		boardPanel.removeAll();
 		llscore.setText(String.valueOf(score));
 		llmoves.setText(String.valueOf(remMove));
 		
-		for(int i = 0; i < b.getWidth(); i++){
-			for(int j = 0; j < b.getHeight(); j++){
-				Cell curr = b.cellAt(i, j);
-				CellButton cb = new CellButton(curr,i,j);
-				boardPanel.add(cb);
-				cb.addActionListener(interact);
+		if (score >= gp.getLevel().getPassingScore()) {
+			JLabel win = new JLabel("You WIN \n:D");
+			boardPanel.add(win);
+		} else if(remMove == 0){
+			JLabel lost = new JLabel("GAME OVER \n:'(");
+			boardPanel.add(lost);
+		} else {
+			this.gp = gp;
+			Board b = gp.getLevel().getBoard();
+			
+			boardPanel.setLayout(new GridLayout(b.getHeight(),b.getWidth()));
+			
+			llscore.setText(String.valueOf(score));
+			llmoves.setText(String.valueOf(remMove));
+			
+			for(int i = 0; i < b.getWidth(); i++){
+				for(int j = 0; j < b.getHeight(); j++){
+					Cell curr = b.cellAt(i, j);
+					CellButton cb = new CellButton(curr,i,j);
+					boardPanel.add(cb);
+					cb.addActionListener(interact);
+				}
 			}
 		}
-		
 		boardPanel.updateUI();
 		buttonHolder.updateUI();
 	}

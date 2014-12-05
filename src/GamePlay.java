@@ -184,7 +184,7 @@ public class GamePlay implements Serializable{
 				eraseAllMatches(scaleMatrix);
 
 				// update the score;
-				score = calculateScore(scaleMatrix);
+				calculateScore(scaleMatrix);
 
 				// drop objects if necessary
 				//dropAll();

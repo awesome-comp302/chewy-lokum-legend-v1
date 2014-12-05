@@ -186,7 +186,7 @@ public class Test {
 	}
 	
 	//Class GamePlay, method GamePlay, testing constructor with legal value
-	public static void initGame(){	
+	/*public static void initGame(){	
 		testGame = new GamePlay(testLevel);
 		
 		if(testGame.repOk()){
@@ -370,11 +370,57 @@ public class Test {
 			gp3.updateBoard();
 		}
 		System.out.println(b3);
+	}*/
+	
+	private static void playerTest(){
+		Player tPlayer = new Player("Berk");
+		System.out.println(tPlayer);
+		tPlayer.setName("Can");
+		System.out.println(tPlayer);
+		
+		Player[] testPlayerList = new Player[999];
+		
+		for(int i=0; i<999; i++){
+			testPlayerList[i] = new Player("test");
+		}
+		for(int i=0; i<999; i++){
+			System.out.println(testPlayerList[i]);
+		}
+		Player.printIdList();
+		
 	}
+	
+	private static void xmlWriteTest(){
+		Player player = new Player("berk");
+		Board board = new Board(5, 5);
+		Level level = new Level(500, 50, board, 56);
+		GamePlay gp = new GamePlay(level, player);
+		
+		gp.updateBoardGC();
+		
+		WriteXMLFile writer = WriteXMLFile.getInstance();
+		
+		writer.saveGame(gp);
+		writer.write();
+		
+	}
+	
+	private static void xmlReadTest(){
+		ReadXMLFile reader = ReadXMLFile.getInstance();
+		
+		
+		reader.read();
+		GamePlay gp = reader.loadGame();
+		
+		System.out.println(gp);
+		
+	}
+	
+	
 
 		
 	public static void main(String[] args) {
-		LegalBoardConstructor();
+		/*LegalBoardConstructor();
 		IllegalBoardConstructor();
 		LegalLevelConstructor();
 		IllegalLevelConstructor();
@@ -430,6 +476,16 @@ public class Test {
 		
 		System.out.println(testSplitter("Initializing an empty board, a associated level and game,then filling that board randomly."));
 		fillRandomlyTest();
+		*/
+		
+		//System.out.println(testSplitter("Player Test"));
+		//playerTest();
+		
+		System.out.println(testSplitter("XML Write Test"));
+		//xmlWriteTest();
+		
+		System.out.println(testSplitter("XML Write Test"));
+		xmlReadTest();
 
 	}
 	

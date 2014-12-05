@@ -11,7 +11,7 @@ public class GamePlay implements Serializable{
 	private int score;
 
 	/** The board. */
-	private Board board;
+	public Board board;
 
 	/** The level. */
 	private Level level;

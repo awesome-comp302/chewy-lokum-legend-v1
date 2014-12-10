@@ -1,12 +1,16 @@
+package Controller;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 
+import XML.WriteXMLFile;
+import GUI.CellButton;
+import GUI.MainGameWindow;
+import Logic.GamePlay;
 
 public class MainGameWindowController {
 	private MainGameWindow view;
-	public GameController game;
+	public static GameController gc;
 	
 	private CellButton click1;
 	private CellButton click2;
@@ -14,20 +18,21 @@ public class MainGameWindowController {
 	public MainGameWindowController(MainGameWindow view) {
 		this.view = view;
 	}
+	
+	public void setGC(GameController gCont){
+		gc = gCont;
+	}
 
-	public void saveExitButtonClicked() {
-		System.out.println("Start save");
-		WriteXMLFile.getInstance().saveGame(game.gp);
-		System.out.println("Start2 save");
+	public void saveExitButtonClicked(GamePlay gp) {
+		WriteXMLFile.getInstance().saveGame(gp);
 		WriteXMLFile.getInstance().write();
-		System.out.println("Start1 save");
 		System.exit(0);
 	}
 	
 	public void cellClicked(CellButton cb){
 		if(click1 != null && (cb.coordX != click1.coordX || cb.coordY != click1.coordY)){
 			click2 = cb;
-			if(click1 == null || click2 == null || game == null){ System.out.println("ouch"); }
+			if(click1 == null || click2 == null || gc == null){ System.out.println("ouch"); }
 			sendSwap();
 		} else if(click1 != null && cb.coordX == click1.coordX && cb.coordY == click1.coordY) {
 			click1.setBorder(BorderFactory.createEmptyBorder());
@@ -39,15 +44,7 @@ public class MainGameWindowController {
 	}
 	
 	public void sendSwap(){
-		System.out.println("Entering sendSwap");
-		//Board nb = new Board(6, 6);
-		if(game.setSwapCoordinates(click1.coordX, click1.coordY, click2.coordX, click2.coordY)){
-			if(game == null) System.out.println("game null");
-			if(game.gp == null) System.out.println("gamegame null");
-			updateBoard(game.gp);
-		} else {
-			
-		}
+		gc.setSwapCoordinates(click1.coordX, click1.coordY, click2.coordX, click2.coordY);
 		click1 = null;
 		click2 = null;
 	}

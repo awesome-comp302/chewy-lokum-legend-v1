@@ -1,5 +1,5 @@
+package Logic;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
@@ -7,6 +7,7 @@ import java.util.Random;
 public class Player {
 
 	private int id;
+	@SuppressWarnings("rawtypes")
 	private static ArrayList idList = new ArrayList<int[]>();
 	private String name;
 	
@@ -30,6 +31,7 @@ public class Player {
 		return "Player [Name= " + getName() + ", ID=" + getID() + "]";
 	}
 
+	@SuppressWarnings("unchecked")
 	private static int generateID(){
 		
 		

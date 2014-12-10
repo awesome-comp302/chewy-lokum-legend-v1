@@ -1,3 +1,4 @@
+package XML;
 import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -10,8 +11,15 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
  
 
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import Logic.Board;
+import Logic.GamePlay;
+import Logic.Level;
+import Logic.Lokum;
+import Logic.Player;
  
 public class WriteXMLFile {
 	private static WriteXMLFile instance;
@@ -50,12 +58,10 @@ public class WriteXMLFile {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
  
-		// root elements
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("Game");
 		doc.appendChild(rootElement);
  
-		// staff elements
 		Element player = doc.createElement("Player");
 		rootElement.appendChild(player);
 		
@@ -71,30 +77,16 @@ public class WriteXMLFile {
 		Board.setAttribute("width", ""+board.getWidth());
 		Board.setAttribute("height", ""+board.getHeight());
 		
-		// lastname elements
+
 		Element id = doc.createElement("id");
 		id.appendChild(doc.createTextNode(""+player_.getID()));
 		player.appendChild(id);
  
-		// firstname elements
+
 		Element name = doc.createElement("name");
 		name.appendChild(doc.createTextNode(player_.getName()));
 		player.appendChild(name);
  
-		// lastname elements
-		//Element lastname = doc.createElement("lastname");
-		//lastname.appendChild(doc.createTextNode("mook kim"));
-		//staff.appendChild(lastname);
- 
-		// nickname elements
-		//Element nickname = doc.createElement("nickname");
-		//nickname.appendChild(doc.createTextNode("mkyong"));
-		//staff.appendChild(nickname);
- 
-		// salary elements
-		//Element salary = doc.createElement("salary");
-		//salary.appendChild(doc.createTextNode("100000"));
-		//staff.appendChild(salary);
 		
 		Element lokums = doc.createElement("lokums");
 		Board.appendChild(lokums);
@@ -126,22 +118,7 @@ public class WriteXMLFile {
 			
 		}
 		
-		/*lokum[0][0] = doc.createElement("lokum");
-		lokums.appendChild(lokum[0][0]);
 		
-		Element type = doc.createElement("type");
-		type.appendChild(doc.createTextNode(board.cellAt(0, 0).getCurrentObject().getType()));
-		lokum[0][0].appendChild(type);
-		
-		Element sType = doc.createElement("sType");
-		sType.appendChild(doc.createTextNode(((Lokum) board.cellAt(0, 0).getCurrentObject()).getSpecialType()));
-		lokum[0][0].appendChild(sType);
-		
-		Element position = doc.createElement("position");
-		lokum[0][0].appendChild(position);
-		
-		position.setAttribute("X", "0");
-		position.setAttribute("Y", "0");*/
 		
 		Element passingScore = doc.createElement("passingScore");
 		passingScore.appendChild(doc.createTextNode(""+level.getPassingScore()));

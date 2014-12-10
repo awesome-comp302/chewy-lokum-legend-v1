@@ -1,3 +1,4 @@
+package Logic;
 
 public class Cell implements Clonable{
 	

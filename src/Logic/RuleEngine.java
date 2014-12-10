@@ -1,4 +1,4 @@
-
+package Logic;
 public class RuleEngine {
 
 	private static RuleEngine instance;
@@ -18,8 +18,7 @@ public class RuleEngine {
 	public static final int COLOR_BOMB = 6;
 
 	public static final int MINIMUM_MATCH_REQUIRED = 3;
-	
-	
+
 	private RuleEngine() {
 
 	}
@@ -55,7 +54,7 @@ public class RuleEngine {
 		int down = countBottom(board, x1, y1, m);
 		int right = countRigth(board, x1, y1, m);
 		int left = countLeft(board, x1, y1, m);
-		// System.err.println("up is" + up);
+
 
 		info.setUpScale(up);
 		info.setDownScale(down);
@@ -150,9 +149,6 @@ public class RuleEngine {
 		int y_count = y1 + 1;
 		while (board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
-			// System.out.println("bottom" + "current: " + current.getType());
-			// System.out.println("candidate: " + ((Lokum)
-			// candidate).getType());
 			if ((current instanceof Matchable)
 					&& (candidate.isMatched((Matchable) current))) {
 				y_count++;
@@ -170,9 +166,6 @@ public class RuleEngine {
 		int y_count = y1 - 1;
 		while (board.inBoard(x1, y_count)) {
 			ChewyObject current = board.cellAt(x1, y_count).getCurrentObject();
-			// System.out.println("topcurrent: " + current.getType());
-			// System.out.println("candidate: " + ((Lokum)
-			// candidate).getType());
 			if ((current instanceof Matchable)
 					&& (candidate.isMatched((Matchable) current))) {
 				y_count--;
@@ -192,7 +185,6 @@ public class RuleEngine {
 	}
 
 	public boolean gameEndedByMovements(int movementsLeft) {
-		// TODO Auto-generated method stub
 		if (movementsLeft > 0) {
 			return false;
 		}
@@ -248,10 +240,11 @@ public class RuleEngine {
 			}
 			
 		}
-		//System.out.println(score);
+
 
 		return score;
 	}
+
 
 	public int getSpecialityCode(MatchingScaleInformer msi) {
 
@@ -294,10 +287,10 @@ public class RuleEngine {
 
 		switch (specialityCode) {
 		case VSTRIPED:
-			sl = new Lokum(initialType, "Vertical Striped");
+			sl = new Lokum(initialType, "Horizontal Stripe");
 			break;
 		case HSTRIPED:
-			sl = new Lokum(initialType, "Horizontal Stripe");
+			sl = new Lokum(initialType, "Vertical Striped");
 			break;
 		case WRAPPED:
 			sl = new Lokum(initialType, "Wrapped");
@@ -313,7 +306,6 @@ public class RuleEngine {
 	}
 
 	public int getRelevantCreationScore(int specialityCode) {
-		// TODO Auto-generated method stub
 		switch (specialityCode) {
 		case VSTRIPED:
 			return 120;
@@ -360,16 +352,18 @@ public class RuleEngine {
 		
 		return 0;
 	}
-
+	
 	private boolean isStriped(Lokum l1) {
 		return l1.getSpecialType().equalsIgnoreCase("striped");
 	}
 
 	private boolean isCB(Lokum l1) {
+		// TODO Auto-generated method stub
 		return l1.getSpecialType().equalsIgnoreCase("color bomb");
 	}
 
 	private boolean isWrapped(Lokum l1) {
+		// TODO Auto-generated method stub
 		return l1.getSpecialType().equalsIgnoreCase("wrapped");
 	}
 
@@ -448,7 +442,5 @@ public class RuleEngine {
 		return n;
 	}
 	
-	public int getSquareAreaSizeForErasing() {
-		return 3;
-	}
+
 }

@@ -1,3 +1,4 @@
+package Logic;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -5,15 +6,16 @@ import java.util.Random;
 /**
  * The Class GamePlay.
  */
+@SuppressWarnings("serial")
 public class GamePlay implements Serializable{
 
 	/** The score of the game. */
 	private int score;
 
 	/** The board. */
-	public Board board;
+	private Board board;
 
-	/** The level played. */
+	/** The level. */
 	private Level level;
 
 	/** The movements left. */
@@ -23,11 +25,10 @@ public class GamePlay implements Serializable{
 	private RuleEngine rules;
 
 	private Position successfullSwapLog[];
-	private Lokum swappedObject1, swappedObject2;
+	private Lokum swappedObject1 = new Lokum("red rose"), swappedObject2= new Lokum("red rose");
 	
-	private boolean swapOccured;
-	
-	private Player suha;
+
+	private Player player;
 
 	/**
 	 * Instantiates a new game play.
@@ -38,18 +39,22 @@ public class GamePlay implements Serializable{
 	 * @modifies:
 	 * @ensures:
 	 */
-	public GamePlay(Level level, Player player) {
+	public GamePlay(Level level) {
 		rules = RuleEngine.getInstance();
 		this.level = level;
 		score = 0;
 		movementsLeft = level.getPossibleMovements();
 		board = level.getBoard();
 		successfullSwapLog = new Position[2];
-		suha =player;
+		// TODO Auto-generated constructor stub
 	}
 	
-	public GamePlay(Level level) {
-		this(level, new Player("Süha"));
+	public void setPlayer(Player player){
+		this.player = player;
+	}
+	
+	public void setScore(int score){
+		this.score = score;
 	}
 
 	/**
@@ -130,12 +135,11 @@ public class GamePlay implements Serializable{
 		score += rules.getSpecialMoveScore(x1, y1, x2, y2, board, swappedObject1, swappedObject2);
 		score += rules.getUsingScore(x1, y1, board, swappedObject1);
 		score += rules.getUsingScore(x2, y2, board, swappedObject2);
-		System.out.println(score);
+		
 		ChewyObject temp = cell1.getCurrentObject();
 		board.fillCellAt(x1, y1, cell2.getCurrentObject());
 		board.fillCellAt(x2, y2, temp);
 		movementsLeft--;
-		swapOccured = true;
 		return true;
 	}
 
@@ -157,92 +161,14 @@ public class GamePlay implements Serializable{
 		this.level = level;
 	}
 
-	/*
-	 * Can: These code may be refactored to an updater class later
-	 */
-	/**
-	 * @requires MatchingScaleInformer class exists and visible to GamePlay.
-	 * @modifies <ul>
-	 *           <li>board</li>
-	 *           <li>level</li>
-	 *           <li>score</li>
-	 *           </ul>
-	 * @ensures <ul>
-	 *          <li>
-	 */
-	public void updateBoard() {
-		
-		//while(true){
-			//while (isThereNothing()) {
-				// Checking if the board is playable
-				fillAllNothingsRandomly();
-			
-				// generate scaling matrix
-				MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
 
-				// erase all matched cells
-				eraseAllMatches(scaleMatrix);
-
-				// update the score;
-				calculateScore(scaleMatrix);
-
-				// drop objects if necessary
-				//dropAll();
-			
-			//}
-			
-			//if(isThereAvailableMove()) break;
-			//else shuffle *TO BE IMPLEMENTED*
-		//}
-		
-		
-
-
-	}
 	
-	public void updateBoardGC() {
+	
+	
+public void initBoard() {
 		
 		while(true){
-			while (isThereNothing() || swapOccured) {
-				if(swapOccured == true) swapOccured = false;
-				System.out.println(board);
-				
-				// Checking if the board is playable
-				fillAllNothingsRandomly();
-				System.out.println(board);
-				// generate scaling matrix
-				MatchingScaleInformer[][] scaleMatrix = generateScaleMatrix();
-				System.out.println(board);
-				// erase all matched cells
-				eraseAllMatches(scaleMatrix);
-				System.out.println(board);
-				// update the score;
-				calculateScore(scaleMatrix);
-				System.out.println(board);
-				// drop objects if necessary
-				dropAll();
-				System.out.println(board);
-				
-			}
-			
-			if(isThereAvailableMove()) break;
-			else {
-				
-				System.out.println("There is no available move. New board is initilized.");
-				//initiliazeNewBoard();
-			}
-		}
-		
-		
-
-
-	}
-	
-	public void initBoard() {
-	
-		while(true){
-			while (isThereNothing() || swapOccured) {
-				if(swapOccured == true) swapOccured = false;
+			while (isThereNothing()) {
 				
 				// Checking if the board is playable
 				fillAllNothingsRandomly();
@@ -252,6 +178,7 @@ public class GamePlay implements Serializable{
 
 				// erase all matched cells
 				eraseAllMatches(scaleMatrix);
+
 
 				// drop objects if necessary
 				dropAll();
@@ -263,7 +190,7 @@ public class GamePlay implements Serializable{
 			else {
 				
 				System.out.println("There is no available move. New board is initilized.");
-				initiliazeNewBoard();
+				createNewBoard();
 			}
 		}
 		
@@ -277,7 +204,7 @@ public class GamePlay implements Serializable{
 	 *
 	 * @return the matching scale informer[][]
 	 */
-	private MatchingScaleInformer[][] generateScaleMatrix() {
+	public MatchingScaleInformer[][] generateScaleMatrix() {
 
 		MatchingScaleInformer[][] scaleMatrix = new MatchingScaleInformer[board
 				.getHeight()][board.getWidth()];
@@ -296,29 +223,14 @@ public class GamePlay implements Serializable{
 	 * @param scaleMatrix
 	 *            the scale matrix
 	 */
-	private void eraseAllMatches(MatchingScaleInformer[][] scaleMatrix) {
+	public void eraseAllMatches(MatchingScaleInformer[][] scaleMatrix) {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				if (specialExchangeOccured()) {
-					eraseForSpecial(scaleMatrix[j][i], i, j);
-				} else {
-					if (rules.shouldErased(scaleMatrix[j][i])) {
-						eraseForNormal(scaleMatrix[j][i], i, j);
-					}
-				}
-				/*MatchingScaleInformer currentMSI = scaleMatrix[j][i];
-				ChewyObject current = board.cellAt(i, j).getCurrentObject();
+				MatchingScaleInformer currentMSI = scaleMatrix[j][i];
 				if (rules.shouldErased(currentMSI)) {
-					if (current instanceof Nothing) {
-						continue;
-					}
-					Lokum lokum = (Lokum)current;
-					if (lokum.isSpecial()) {
-						eraseForSpecial(currentMSI, i, j);
-					} else {
-						eraseForNormal(currentMSI, i, j);
-					}
-				}*/
+					eraseForNormal(currentMSI, i, j);
+
+				}
 				
 			}
 		}
@@ -326,22 +238,44 @@ public class GamePlay implements Serializable{
 
 
 	private void eraseForNormal(MatchingScaleInformer currentMSI, int i, int j) {
-		/*create special object only at the position
-		 * of the recently 
-		 * swapped objects
-		 */
+		String type;
+		if (board.cellAt(i, j).getCurrentObject() instanceof Lokum) {
+			Lokum lokum = (Lokum) board.cellAt(i, j).getCurrentObject();
+			type = lokum.getSpecialType();
+		}else{
+			type = "Nothing";
+		}
+		Lokum temp;
+		if(swappedObject1.isSpecial()){
+			temp = swappedObject2 ;
+		}else{ 
+			temp = swappedObject1;
+		}
 		
-		board.fillCellAt(i, j, new Nothing());
+
+		try {
+			if (type.equalsIgnoreCase("Regular")) {
+				board.fillCellAt(i, j, new Nothing());
+			} else if (type.equalsIgnoreCase("vertical striped")) {
+				clearColumn(j);
+			} else if (type.equalsIgnoreCase("horizontal striped")) {
+				clearRow(i);
+			} else if (type.equals("Wrapped")) {
+				clearArea(i, j);
+			} else if (type.equals("Color Bomb")) {
+				clearSameObjects(temp);
+			}
+		} catch (Exception e) {
+			
+		}
 		Position p = new Position(i, j);
 		if (recentlySwapped(p)) {
-//			System.err.println("i am here");
-//			System.err.println("update is here:" +specialityCode);
 			
 			Lokum swapped = null;
 			if (p.isSamePlace(successfullSwapLog[0])) {
-				swapped = swappedObject1;
-			} else {
 				swapped = swappedObject2;
+			} else {
+				swapped = swappedObject1;
 			}
 			
 			int specialityCode = rules.getSpecialityCode(currentMSI);
@@ -354,61 +288,27 @@ public class GamePlay implements Serializable{
 
 	}
 	
-	private boolean specialExchangeOccured() {
-		if (swapOccured) {
-			return swappedObject1.isSpecial() && swappedObject2.isSpecial();
-		}
-		return false;
-		
-	}
-	
-	
-	private void eraseForSpecial(MatchingScaleInformer currentMSI, int i, int j) {
-		Lokum sl = (Lokum)getCounterPartObjectOfMatrix(j, i);
-		String type = sl.getSpecialType();
-		if (type.equalsIgnoreCase("vertical striped")) {
-			clearColumn(i);
-		} else if (type.equalsIgnoreCase("horizontal striped")) {
-			clearRow(j);
-		} else if (type.equals("Wrapped")) {
-			clearArea(i, j);
-		} else if (type.equals("Color Bomb")) {
-			clearSameObjects(sl);
-		}
-		
-	}
-	
+
 	private void clearSameObjects(Matchable m) {
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
-				ChewyObject current = board.cellAt(i, j).getCurrentObject();
-				if (current instanceof Matchable) {
-					if(m.isMatched((Matchable)current))
+				Lokum current = (Lokum)board.cellAt(i, j).getCurrentObject();
+					if(m.isMatched(current))
 						board.fillCellAt(i, j, new Nothing());
-				}
 			}
 		}
 	}
 
 	private void clearArea(int x, int y) {
-		for (int i = -rules.getSquareAreaSizeForErasing() + 1; i < rules.getSquareAreaSizeForErasing(); i++) {
-			
-			int incy = y + i;
-			int incx = x + i;
-			
-			if (board.inBoard(incx, y)) {
-				board.fillCellAt(incx, y, new Nothing());
+
+		for (int i = x-2; i < x+2; i++) {
+			for (int j =  y-2; j < y+2; j++) {
+					board.fillCellAt(i, j, new Nothing());
 			}
-			
-			if (board.inBoard(x, incy)) {
-				board.fillCellAt(x, incy, new Nothing());
-			}
-			
-			if (board.inBoard(incx, incy)) {
-				board.fillCellAt(x+i, y+i, new Nothing());
-			}	
+
 		}	
 	}
+
 
 	private void clearRow(int y) {
 		for (int x = 0; x < board.getWidth(); x++) {
@@ -425,23 +325,10 @@ public class GamePlay implements Serializable{
 	
 
 	private boolean recentlySwapped(Position p) {
-		// TODO Auto-generated method stub
-		//System.out.println(p);
-		//System.out.println(Arrays.toString(successfullSwapLog));
 		return p.isSamePlace(successfullSwapLog[0])
 				|| p.isSamePlace(successfullSwapLog[1]);
 	}
 
-	private Position getCounterPartPositionOfMatrixIndex(int i, int j) {
-		
-		return new Position(j, i);
-	}
-
-	
-
-	private ChewyObject getCounterPartObjectOfMatrix(int row, int col) {
-		return board.cellAt(col, row).getCurrentObject();
-	}
 
 	/**
 	 * Calculate score.
@@ -450,7 +337,7 @@ public class GamePlay implements Serializable{
 	 *            the msi
 	 * @return the int
 	 */
-	private int calculateScore(MatchingScaleInformer[][] msi) {
+	public int calculateScore(MatchingScaleInformer[][] msi) {
 		int eraseCount = 0;
 		
 		for (int i = 0; i < msi.length; i++) {
@@ -461,7 +348,6 @@ public class GamePlay implements Serializable{
 				score += rules.getStandardScore(eraseCount, msi[i][j]);
 			}
 		}
-		System.out.println(score);
 		return score;
 	}
 
@@ -536,7 +422,7 @@ public class GamePlay implements Serializable{
 		return rules.gameEndedByMovements(movementsLeft);
 	}
 	
-	private void initiliazeNewBoard(){
+	public void createNewBoard(){
 		String str[] = Lokum.possibleTypes;
 		for (int i = 0; i < board.getWidth(); i++) {
 			for (int j = 0; j < board.getHeight(); j++) {
@@ -550,20 +436,6 @@ public class GamePlay implements Serializable{
 		
 	}
 
-	/*
-	 * private void erase() { boolean eraseMatrix[][] = new
-	 * boolean[board.getHeight()][board.getWidth()];
-	 * 
-	 * for (int r = 0; r < eraseMatrix.length; r++) { for (int c = 0; c <
-	 * eraseMatrix[r].length; c++) { eraseMatrix[r][c] = rules.check(board, c,
-	 * r, board.cellAt(c, r)) != RuleEngine.NO_MATCH; } }
-	 * 
-	 * for (int r = 0; r < eraseMatrix.length; r++) { for (int c = 0; c <
-	 * eraseMatrix[r].length; c++) { if (eraseMatrix[r][c]) {
-	 * board.fillCellAt(c, r, new Nothing()); } } }
-	 * 
-	 * }
-	 */
 
 	/**
 	 * Rep ok.
@@ -607,33 +479,7 @@ public class GamePlay implements Serializable{
 	}
 
 	public Player getPlayer() {
-		return suha;
+		return player;
 	}
 
-	/*
-	 * Old matching code MatchingScaleInformer info = scalingMatrix[i][j];
-	 * 
-	 * if (info.horizontalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED
-	 * || info.verticalMatchTotalScale() >= RuleEngine.MINIMUM_MATCH_REQUIRED) {
-	 * board.fillCellAt(i, j, new Nothing()); }
-	 * 
-	 * //left for (int k = 1; k <= info.getLeftScale(); k++) {
-	 * board.fillCellAt(i-k, j, new Nothing()); }
-	 * 
-	 * //right for (int k = 1; k <= info.getRightScale(); k++) {
-	 * board.fillCellAt(i+k, j, new Nothing()); }
-	 * 
-	 * //up for (int k = 1; k <= info.getUpScale(); k++) { board.fillCellAt(i,
-	 * j-k, new Nothing()); }
-	 * 
-	 * //down for (int k = 1; k <= info.getDownScale(); k++) {
-	 * board.fillCellAt(i, j+k, new Nothing()); }
-	 */
 }
-
-/*
- * 
-					if( swappedObject1  ) comboErase();
-					else if (swappedObject1.isSpecial() && !swappedObject2.isSpecial()) eraseForSpecial(currentMSI, i, j, true);
-					else if (!(swappedObject1 instanceof SpecialLokum) && swappedObject2 instanceof SpecialLokum)  eraseForSpecial(currentMSI, i, j, false);
-					*/

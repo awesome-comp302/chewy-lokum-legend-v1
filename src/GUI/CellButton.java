@@ -1,12 +1,18 @@
+package GUI;
 import java.awt.Color;
 
 import javax.swing.JButton;
 
+import Logic.Cell;
+import Logic.ChewyObject;
+import Logic.Lokum;
+
+@SuppressWarnings("serial")
 public class CellButton extends JButton{
 		public int coordX;
 		public int coordY;
 		public CellButton(Cell c, int i, int j){
-			super(c.getCurrentObject().type.substring(0, 2));
+			super(c.getCurrentObject().getType().substring(0, 2));
 			coordX = i;
 			coordY = j;
 			ChewyObject co = c.getCurrentObject();
@@ -30,6 +36,9 @@ public class CellButton extends JButton{
 				}
 				
 				
+			}else{
+				setBackground(Color.GRAY);
+				setText("");
 			}
 			
 			

@@ -1,3 +1,4 @@
+package XML;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
@@ -5,6 +6,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+
+import Logic.Board;
+import Logic.GamePlay;
+import Logic.Level;
+import Logic.Lokum;
+import Logic.Player;
 
 import java.io.File;
  
@@ -58,29 +65,15 @@ public class ReadXMLFile {
 	int levelState = Integer.parseInt(level.getTextContent());
 	
  
-	/*System.out.println("----------------------------");
-	
-	System.out.println("passingScore : " + passingScoreState);
-	System.out.println("currentScore : " + currentScoreState);
-	System.out.println("remainingMoves : " + remainingMovesState);
-	System.out.println("level : " + levelState);
-	*/
 
 	
 	Element el = (Element) player.item(0);
 	
-
-	//System.out.println(devam.item(0).getTextContent());
-	//System.out.println("----------------------------");
 	
 	String name = getTextValue(el,"name");
 	int id = getIntValue(el,"id");
 
-
-	/*System.out.println("name : " + name);
-	System.out.println("id : " + id);
-	System.out.println("----------------------------");
-	*/
+	
 	NodeList lokums = (NodeList) board.item(0);
 	NodeList lokum = (NodeList) lokums.item(0);
 	
@@ -91,31 +84,18 @@ public class ReadXMLFile {
 	Level levelTest = new Level(passingScoreState, remainingMovesState, boardState, levelState);
 	Player playerTest = new Player(name);
 	playerTest.setID(id);
-	gp = new GamePlay(levelTest, playerTest);
+	gp = new GamePlay(levelTest);
+	gp.setPlayer(playerTest);
+	gp.setScore(currentScoreState);
 	
 	for (int i = 0; i < lokum.getLength(); i++) {
 		String type = getTextValue((Element) lokum.item(i), "type");
 		String sType = getTextValue((Element) lokum.item(i), "sType");
 		int x = Integer.parseInt(getTextValue((Element) lokum.item(i), "xPos"));
 		int y = Integer.parseInt(getTextValue((Element) lokum.item(i), "yPos"));
-		/*System.out.println("***");
-		System.out.println("type : " + type);
-		System.out.println("sType : " + sType);
-		System.out.println("xPos : " + x);
-		System.out.println("yPos : " + y);
-		*/
-		
 		boardState.fillCellAt(x, y, new Lokum(type, sType));
 	}
 	
-	
-	/*
-	System.out.println(playerTest);
-	System.out.println(levelTest);
-	System.out.println(gp);
-	System.out.println(boardState);
-	
-	*/
     } catch (Exception e) {
 	e.printStackTrace();
     }

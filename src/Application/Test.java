@@ -1,8 +1,19 @@
+package Application;
+import XML.ReadXMLFile;
+import XML.WriteXMLFile;
+import Logic.Board;
+import Logic.Cell;
+import Logic.GamePlay;
+import Logic.Level;
+import Logic.Lokum;
+import Logic.Player;
+
 
 public class Test {
 	
 	private static Board bPrepared = new Board(3, 3);;
 	private static Level testLevel;
+	@SuppressWarnings("unused")
 	private static GamePlay testGame;
 	
 	
@@ -372,6 +383,7 @@ public class Test {
 		System.out.println(b3);
 	}*/
 	
+	@SuppressWarnings("unused")
 	private static void playerTest(){
 		Player tPlayer = new Player("Berk");
 		System.out.println(tPlayer);
@@ -390,13 +402,15 @@ public class Test {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static void xmlWriteTest(){
 		Player player = new Player("berk");
 		Board board = new Board(5, 5);
 		Level level = new Level(500, 50, board, 56);
-		GamePlay gp = new GamePlay(level, player);
+		GamePlay gp = new GamePlay(level);
+		gp.setPlayer(player);
 		
-		gp.updateBoardGC();
+		
 		
 		WriteXMLFile writer = WriteXMLFile.getInstance();
 		
@@ -405,6 +419,7 @@ public class Test {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static void xmlReadTest(){
 		ReadXMLFile reader = ReadXMLFile.getInstance();
 		
@@ -481,16 +496,18 @@ public class Test {
 		//System.out.println(testSplitter("Player Test"));
 		//playerTest();
 		
-		System.out.println(testSplitter("XML Write Test"));
+		//System.out.println(testSplitter("XML Write Test"));
 		//xmlWriteTest();
 		
-		System.out.println(testSplitter("XML Read Test"));
-		xmlReadTest();
+		//System.out.println(testSplitter("XML Read Test"));
+		//xmlReadTest();
 		
-		LoadGameWindow lg = new LoadGameWindow(); 
+		//@SuppressWarnings("unused")
+		//LoadGameWindow lg = new LoadGameWindow(); 
 	}
 	
 
+	@SuppressWarnings("unused")
 	private static String testSplitter(String s){
 		return "\n----------------\n" +
 	           "  Next Test  \n" +

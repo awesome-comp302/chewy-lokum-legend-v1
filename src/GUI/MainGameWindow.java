@@ -1,17 +1,23 @@
+package GUI;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.peer.ButtonPeer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Controller.MainGameWindowController;
+import Logic.Board;
+import Logic.Cell;
+import Logic.GamePlay;
 
+
+@SuppressWarnings("serial")
 public class MainGameWindow extends JFrame {
 	private JLabel lgoal;
 	private JLabel lmoves;
@@ -23,23 +29,15 @@ public class MainGameWindow extends JFrame {
 	private JPanel 	boardHolder;
 	private JPanel	buttonHolder;
 	private JPanel 	boardPanel;
-	private JPanel  detailPanel;
 	private Interact interact;
 	
 	private GamePlay gp;
 	private int score;
 	private int remMove;
-	private int goal;
 	private MainGameWindowController controller;
 	
 	public MainGameWindow(GamePlay gap){
-		//Score
-		//Target
-		//Moves
-		//Level
-		//Menu~Exit
-		//Game Board
-		super("Welcome!");
+		super("Game");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		controller = new MainGameWindowController(this);
 		
@@ -49,7 +47,7 @@ public class MainGameWindow extends JFrame {
 		getRootPane().setWindowDecorationStyle(2);
 		
 		getContentPane().setLayout(new GridBagLayout());
-		setSize(1200, 800);
+		setSize(800, 600);
 		setLocationRelativeTo(null);
 		interact = new Interact();
 		GridBagConstraints c = new GridBagConstraints();
@@ -132,8 +130,6 @@ public class MainGameWindow extends JFrame {
 		boardHolder.add(boardPanel,c);
 		boardHolder.setVisible(true);
 		
-		detailPanel = new JPanel();
-		
 		
 		//pack();
 		setVisible(true);
@@ -145,9 +141,8 @@ public class MainGameWindow extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			Object srcButton =  e.getSource();
 			if (srcButton == saveExitButton) {
-				controller.saveExitButtonClicked();
+				controller.saveExitButtonClicked(gp);
 			} else if (srcButton.getClass() == CellButton.class){
-				System.out.println("Entering cellClicked");
 				controller.cellClicked((CellButton) srcButton);
 				
 			}

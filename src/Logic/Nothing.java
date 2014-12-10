@@ -1,3 +1,4 @@
+package Logic;
 
 public class Nothing extends ChewyObject {
 

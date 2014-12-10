@@ -1,3 +1,4 @@
+package Logic;
 import java.util.ArrayList;
 
 
@@ -21,7 +22,6 @@ public class Level {
 		this.levelId = levelId;
 		allLevelIds.add(levelId);
 		this.board = board;
-		// TODO Auto-generated constructor stub
 	}
 
 	public Board getBoard() {
